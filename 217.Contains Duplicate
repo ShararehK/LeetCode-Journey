@@ -1,5 +1,20 @@
 Problem : https://leetcode.com/problems/contains-duplicate/description/
 
+
+
+Description:
+The problem at hand is to determine whether an array of integers contains any duplicate elements. To address this, we employ a simple and efficient approach.
+
+We create a HashSet called set to store unique elements from the input array nums. We then iterate through each element in nums. During each iteration, we check whether the current element already exists in the set. If it does, we return true because we've found a duplicate. Otherwise, we add the element to the set to keep track of it.
+
+After looping through all the elements in nums, if we haven't encountered any duplicates (i.e., all elements are unique), the size of the set will be equal to the length of the nums array. In this case, we return false as there are no duplicates.
+
+This solution ensures that we only need to iterate through the array once, making it an efficient way to detect duplicates. It leverages the HashSet data structure to maintain a set of unique elements and quickly identifies duplicates as they occur.
+
+
+
+Solution :
+
 class Solution {
     public boolean containsDuplicate(int[] nums) {
         Set<Integer> set = new HashSet<>();
