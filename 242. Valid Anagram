@@ -1,0 +1,53 @@
+Problem :
+https://leetcode.com/problems/valid-anagram/description/
+
+Description:
+
+1. The function isAnagram takes two input strings, s and t, and returns a boolean value indicating whether t is an anagram of s.
+
+2. The input strings s and t are first converted into character arrays charS and charT, respectively. This allows us to easily iterate through the characters in the strings.
+
+3. Two HashMaps, hashS and hashT, are created to store the character frequencies of s and t, respectively. In these HashMaps, the keys are characters, and the values are their frequencies (how many times they occur in the respective strings).
+
+4. We populate the hashS HashMap by iterating through the characters in charS. For each character c:
+
+  - We check if c is already in hashS using hashS.containsKey(c).
+  - If it's already in the HashMap, we increment its count using hashS.put(c, hashS.get(c) + 1).
+  - If it's not in the HashMap, we add it with a count of 1 using hashS.put(c, 1).
+
+5. Similarly, we populate the hashT HashMap by iterating through the characters in charT, following the same logic as in step 4 for character frequencies.
+
+6. Finally, we compare the two HashMaps using hashS.equals(hashT). If they are equal, it means that t is an anagram of s, and we return true. Otherwise, we return false.
+
+This solution efficiently counts the occurrences of each character in both strings and checks if they match, ensuring that t is indeed an anagram of s.
+
+
+Solution :
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        char[] charS = s.toCharArray();
+        HashMap<Character, Integer> hashS = new HashMap<>();
+        
+        for (char c : charS) {
+            if (hashS.containsKey(c)) {
+                hashS.put(c, hashS.get(c) + 1);
+            } else {
+                hashS.put(c, 1);
+            }
+        }
+        
+        char[] charT = t.toCharArray();
+        HashMap<Character, Integer> hashT = new HashMap<>();
+        
+        for (char c : charT) {
+            if (hashT.containsKey(c)) {
+                hashT.put(c, hashT.get(c) + 1);
+            } else {
+                hashT.put(c, 1);
+            }
+        }
+        
+        return hashS.equals(hashT);
+    }
+}
