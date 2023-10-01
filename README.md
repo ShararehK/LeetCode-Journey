@@ -1,6 +1,5 @@
 # LeetCode-Journey
 
-# LeetCode Journey in Java 🚀
 
 Welcome to my LeetCode Journey repository! This is where I, Sharareh Keshavarzi, document my ongoing quest to enhance my Data Structures and Algorithms (DSA) skills and become a better problem solver using Java.
 
