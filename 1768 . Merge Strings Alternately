@@ -1,0 +1,41 @@
+Problem : https://leetcode.com/problems/merge-strings-alternately/
+
+Description : 
+
+1. Initialize an empty string result to store the merged result.
+2. Find the minimum length between word1 and word2.
+3. Initialize an index j to keep track of characters from word2.
+4. Loop through the common characters of both words up to the minimum length.
+5. Append the i-th character from word1 and the j-th character from word2 to the result.
+6. Increment the index j to move to the next character in word2.
+7. Check if the two input strings are of the same length. If they are, return the result.
+8. If word1 is longer, append the remaining characters from word1 to the result.
+9. If word2 is longer, append the remaining characters from word2 to the result.
+10. Return the final merged result.
+
+
+Solution : 
+
+class Solution {
+    public String mergeAlternately(String word1, String word2) {
+        String result="";
+        int len=Math.min(word1.length(),word2.length());
+        int j=0;
+        for(int i=0;i<len;i++){
+            result+=word1.charAt(i);
+            result+=word2.charAt(j);
+            j++;
+            
+        }
+        if(word1.length()==word2.length()){
+            return result;
+        }
+        else if(len<word1.length()){
+            return result+=word1.substring(len);
+        }
+        else if (len<word2.length()){
+            return result+=word2.substring(len);
+        }
+        return result;
+    }
+}
