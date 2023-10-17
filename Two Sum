@@ -1,0 +1,46 @@
+Problem : https://leetcode.com/problems/two-sum/
+
+Description : 
+
+1. Create an integer array result to store the indices of the two numbers.
+2. Create a HashMap called hash to store the values needed to achieve the target with each element in nums.
+First Loop:
+3. Iterate through the elements of the nums array using a for loop with an index i.
+4. For each element nums[i], calculate the value needed to reach the target by subtracting nums[i] from target, and store it in the hash map with nums[i] as the key.
+5. Initialize an integer variable complement to 0. This variable will be used to store the value that complements one of the elements in the nums array to reach the target.
+Second Loop:
+6. Iterate through the values stored in the hash map (the ones calculated in the first loop) using an enhanced for loop. These values represent the possible complements.
+7. For each value i in hash.values(), check if the hash map contains a key with the value i. If it does, set the complement to i. This means that you found a complement that, when added to one of the elements in nums, results in the target.
+8. Initialize an integer variable counter to 0. This variable will keep track of the number of elements added to the result array.
+Third Loop:
+9. Iterate through the elements of the nums array again using a for loop with an index i.
+10. For each element nums[i], check if it is equal to either the complement or the difference between the target and the complement (i.e., target - complement). If it is, then you found one of the two numbers needed to reach the `target.
+11. Add the index i to the result array at position counter, and increment the counter.
+12. Continue this process until you find both numbers or until you've checked all elements in the array.
+13. Finally, return the result array, which should contain the indices of the two numbers that sum up to the target.
+
+Solution : 
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[] result=new int[2];
+        HashMap<Integer , Integer> hash=new HashMap();
+        for(int i=0; i<nums.length ; i++){
+            hash.put(nums[i] , target-nums[i]);
+        }
+        int complement=0;
+        for(Integer i: hash.values()){
+            if(hash.containsKey(i)){
+                complement=i;
+            }
+        }
+        int counter=0;
+        for(int i=0; i<nums.length; i++){
+            if (nums[i]== complement || nums[i]==target-complement){
+                result[counter]=i;
+                counter++;
+            }
+        }
+        return result;
+    }
+}
