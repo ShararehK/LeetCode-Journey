@@ -1,0 +1,30 @@
+Problem https://leetcode.com/problems/the-kth-factor-of-n/
+
+Description : 
+
+1. If k is greater than n, it's impossible to find the k-th factor because there aren't enough factors. In this case, return -1 to indicate that there is no solution.
+2. Create a list called ls to store the factors of n. We start with an empty list.
+3. Use a for loop to go through numbers from 1 to n/2 because factors are always less than or equal to half of the number. For each number i in this range:
+4. Check if n is divisible by i without leaving a remainder (in other words, n % i should be 0). If it is, then i is a factor of n, so add it to the ls list.
+5. After the loop, add n itself to the ls list because n is always a factor of itself.
+Now, check if k is within the range of the ls list. If it is, return the k-th element of the ls list (remember to subtract 1 because list indices start from 0). This is the k-th factor of n.
+6. If k is greater than the number of factors in the list, return -1 because there are not enough factors to find the k-th one.
+
+Solution : 
+
+class Solution {
+    public int kthFactor(int n, int k) {
+        if(k>n) return -1;
+        List<Integer> ls=new ArrayList<Integer>();
+        for(int i=1;i<=n/2;i++){
+            if(n%i==0){
+                ls.add(i);
+            }
+        }
+        ls.add(n);
+        if(k<=ls.size()){
+            return ls.get(k-1);
+        }
+        return -1;
+    }
+}
