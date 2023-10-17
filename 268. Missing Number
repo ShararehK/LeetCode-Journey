@@ -1,0 +1,30 @@
+Problem : https://leetcode.com/problems/missing-number/
+
+Explanation : 
+
+1. Calculate the expected sum:
+The expected sum of all the numbers in the array should be the sum of the first 'n' natural numbers, where 'n' is the length of the array. This is given by the formula: (n * (n + 1)) / 2.
+In other words, if the array were complete with no missing numbers, this is what the sum should be.
+
+2.Calculate the actual sum:
+The code then calculates the actual sum of the numbers in the input array by iterating through the array and adding each element to a variable named sum.
+
+3.Find the missing number:
+To find the missing number, subtract the actual sum from the expected sum (the complete sum).
+The result will be the missing number.
+
+4.Return the missing number:
+The code returns the calculated missing number as the final result.
+
+Solution : 
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        int expectedSum=(nums.length*(nums.length+1))/2;
+        int sum=0;
+        for(int i =0;i<nums.length;i++){
+            sum+=nums[i];
+        }
+        return expectedSum-sum;
+    }
+}
