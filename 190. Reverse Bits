@@ -1,0 +1,32 @@
+Problem : https://leetcode.com/problems/reverse-bits/
+
+Explanation : 
+
+1. Initialize a variable result to 0. This variable will store the reversed integer.
+
+2. Use a for loop that iterates 32 times. Since you are dealing with a 32-bit integer, you need to reverse all of its bits.
+
+3. Inside the loop, left-shift the result by 1 position using the result = result << 1; operation. This prepares result for the next bit to be added.
+
+4. Then, add the least significant bit of n to result using the operation result += n & 1;. This bit is obtained by performing a bitwise AND operation between n and 1.
+
+5. Right-shift n by 1 position using the operation n = n >>> 1;. This prepares n for the next iteration to consider the next bit.
+
+6. Repeat this process for all 32 bits, and at the end of the loop, result will contain the integer with its bits reversed.
+
+7. Return the result as the final reversed integer.
+
+Solution :
+
+public class Solution {
+    // you need treat n as an unsigned value
+    public int reverseBits(int n) {
+        int result=0;
+        for(int i=0;i<32;i++){
+            result=result<<1;
+            result+=n&1;
+            n=n>>>1;
+        }
+        return result;
+    }
+}
