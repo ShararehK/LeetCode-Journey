@@ -1,0 +1,50 @@
+Problem : https://leetcode.com/problems/invert-binary-tree/
+
+Explanation :
+
+1. If the root is null, it means the tree is empty (base case), and there's nothing to invert. In this case, the method returns null.
+
+2. If the root is not null, it proceeds to recursively invert the left and right subtrees.
+
+3. It first inverts the left subtree by calling invertTree recursively with root.left. This will recursively flip all the nodes in the left subtree.
+
+4. It also inverts the right subtree in a similar manner by calling invertTree with root.right.
+
+5. After inverting the left and right subtrees, it temporarily stores the inverted right subtree in a dummy variable. This is necessary to ensure that the right subtree is not lost when we swap the left and right subtrees of the current node.
+
+6. It then performs the swap, setting the root.right to the inverted left subtree and root.left to the dummy, which holds the inverted right subtree.
+
+7. Finally, it returns the root of the inverted tree, which is the current node after all the necessary swaps. This process repeats recursively for all nodes in the tree.
+
+Solution : 
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root== null){
+            return null;
+        }
+        if(root!=null){
+            TreeNode invertedLeft=invertTree(root.left);
+            TreeNode invertedRight=invertTree(root.right);
+            TreeNode dummy=invertedRight;
+            root.right=invertedLeft;
+            root.left=dummy;
+        }
+        return root;
+    }
+}
