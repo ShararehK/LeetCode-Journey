@@ -1,0 +1,83 @@
+Problem :https://leetcode.com/problems/merge-two-sorted-lists/
+
+Explanation :
+
+Recursive Solution:
+
+1. The base case for this solution is when either list1 or list2 becomes null. In this case, you return the other list because the remaining elements of that list are already sorted.
+2. If neither list is null, you compare the values of the current nodes, list1.val and list2.val. If list1.val is less than or equal to list2.val, you make list1.next point to the result of merging the rest of list1 with list2 (by calling mergeTwoLists(list1.next, list2)).
+3. If list2.val is less, you do the opposite: make list2.next point to the result of merging the rest of list2 with list1 (by calling mergeTwoLists(list1, list2.next)).
+4. In each step, you return the node with the smaller value. This process continues recursively until you reach the base case.
+
+
+Non-Recursive Solution:
+
+1. In this solution, you create a dummy result node to hold the merged list's head, and a curRes node to keep track of the current node while merging.
+2. You use a while loop to iterate as long as both list1 and list2 are not null.
+3. Inside the loop, you compare the values of the current nodes, and you attach the node with the smaller value to the curRes.next.
+4. You then move curRes and the corresponding list pointer (either list1 or list2) one step forward.
+5. After the loop, you may have some remaining elements in either list1 or list2. You connect curRes.next to the remaining elements in the non-empty list.
+6. Finally, you return result.next, which is the merged sorted list.
+
+Solution :
+
+For this problem I added 2 different methods of solving both recursive and non recursive solutions 
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+
+        //************ */ Recursion Solution ************** O(1)
+        
+        if(list1!=null && list2!=null){
+            if(list1.val<=list2.val){
+                list1.next=mergeTwoLists(list1.next,list2);
+                return list1;
+            }
+            else{
+                list2.next=mergeTwoLists(list1,list2.next);
+                return list2;
+            } 
+        }
+        if(list1==null){
+            return list2;
+        }
+        return list1;
+
+
+
+        // **********  Non-Recursion Solution*************** O(n)
+
+        ListNode result=new ListNode();
+        ListNode curRes=result;
+        while (list1!=null && list2!=null){
+            if(list1.val<=list2.val){
+                curRes.next=list1;
+                list1=list1.next;
+            }
+            else{
+                curRes.next=list2;
+                list2=list2.next;
+                }
+            curRes=curRes.next;
+        }
+        if(list1==null){
+            curRes.next=list2;
+        }
+        if(list2==null){
+            curRes.next=list1;
+        }
+        return result.next;
+    }
+}lt.next;
+    }
+}
