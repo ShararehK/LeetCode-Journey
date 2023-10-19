@@ -1,0 +1,40 @@
+https://leetcode.com/problems/linked-list-cycle/
+
+Explanation :
+
+1. We use a HashMap to keep track of the nodes we've visited.
+2. We start at the head of the linked list (cur = head) and traverse the list one node at a time.
+3. At each step, we check if the current node (cur) is already in the HashMap. If it is, we have detected a cycle, and we return true.
+4. If the current node is not in the HashMap, we add it to the map to mark that we've visited it, and then move to the next node (cur = cur.next).
+5. We repeat this process until we either find a cycle and return true or reach the end of the list, in which case we return false to indicate that there is no cycle.
+
+Solution : 
+
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        HashMap<ListNode,Integer> hash=new HashMap();
+        ListNode cur=head;
+        while(cur!=null){
+            if(!hash.containsKey(cur)){
+                hash.put(cur,0);
+                cur=cur.next;
+            }
+            else{
+                return true;
+            }
+        }
+        return false;
+        
+    }
+}
