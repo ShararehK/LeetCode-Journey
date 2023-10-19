@@ -1,0 +1,36 @@
+Problem : https://leetcode.com/problems/climbing-stairs/
+
+Explanation :
+
+1. Initialize two variables, one and two, both set to 1. These variables represent the number of distinct ways to reach the current step using one and two steps, respectively. Since there's only one way to reach the first step (by taking one step), both are initialized to 1.
+
+2. Use a for loop to iterate from i = 0 to n - 1. The loop handles the cases for n greater than 2.
+
+3. Inside the loop, create a temporary variable temp and set it equal to the value of one. This is done to keep track of the previous value of one because it will be updated in the next step.
+
+4. Update the value of one by adding the values of one and two. This represents the number of ways to reach the current step using one step (i.e., one + two).
+
+5. Update the value of two to be the old value of one (stored in the temp variable). This prepares two for the next iteration.
+
+6. Continue looping until you've calculated the number of distinct ways to reach the top, which is represented by one at the end of the loop.
+
+7. Return the value of one as the final result, which is the number of distinct ways to climb the staircase with n steps.
+
+Solution : 
+
+
+class Solution {
+    public int climbStairs(int n) {
+
+        int one =1;
+        int two =1;
+        for(int i =0;i<n-1;i++){
+            int temp=one;
+            one =one +two;
+            two=temp;
+        }
+        return one;
+    }
+}
+
+
