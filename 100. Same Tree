@@ -1,0 +1,46 @@
+Problem : https://leetcode.com/problems/same-tree/ 
+
+Explanation : 
+
+1. If both p and q are null, it means both trees are empty (base case), so they are considered the same. In this case, the method returns true.
+
+2. If either p or q is null (but not both), or if their values are different, it means the trees are not the same. In this case, the method returns false.
+
+3. If neither p nor q is null, and their values are the same, it proceeds to recursively compare their left and right subtrees.
+
+4. It checks if the left subtrees of p and q are the same by calling isSameTree recursively with p.left and q.left. It does the same for the right subtrees, comparing p.right and q.right.
+
+5. Finally, it returns the result of the recursive calls on the left and right subtrees. The method returns true only if both the left and right subtrees are the same, indicating that the entire trees are identical.
+
+
+
+Solution :
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p==null && q==null){
+            return true;
+        }
+        if(p!=null && q!=null && p.val==q.val){
+            boolean isLeftSame=isSameTree(p.left,q.left);
+            boolean isRightSame=isSameTree(p.right,q.right);
+            return isLeftSame && isRightSame;
+        }
+        return false;
+    }
+}
