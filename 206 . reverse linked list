@@ -1,0 +1,46 @@
+Problem : https://leetcode.com/problems/reverse-linked-list/
+
+
+Description : 
+
+1 . We start with three pointers: cur, prev, and next.
+
+  *  cur: Initially points to the head of the linked list.
+  *  prev: Initially set to null since the first node's next should point to null in the reversed list.
+  *  next: Initially set to null as we haven't reversed the first node yet.
+2 . We enter a while loop that continues as long as cur is not null.
+
+3. Inside the loop:
+
+  *  We first store the next node in the original list (node that cur is currently pointing to) in the next pointer.
+  *  We then update the next of the current node (cur) to point to the previous node (prev). This effectively reverses the direction of the link for the current node.
+  *  Move the prev pointer to the cur node, and move the cur pointer to the next node to continue the process for the next node.
+4 . The loop continues until cur becomes null, meaning we've reversed all the nodes in the original list.
+
+5. Finally, we return the prev pointer as it now points to the new head of the reversed linked list.
+
+Solution :
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode cur=head;
+        ListNode prev=null;
+        while(cur!=null){
+            ListNode next=cur.next;
+            cur.next=prev;
+            prev=cur;
+            cur=next;
+        }
+        return prev;
+    }
+}
