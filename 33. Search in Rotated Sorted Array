@@ -1,0 +1,57 @@
+Problem : https://leetcode.com/problems/search-in-rotated-sorted-array/
+
+**********************************
+
+Explanation :
+
+1. Initialize left to 0 and right to the index of the last element in the array.
+
+2. Enter a while loop that continues as long as left is less than or equal to right. This loop is crucial for performing the binary search.
+
+3. Calculate the center as the midpoint between left and right.
+
+4. Inside the loop:
+
+  *  Check if nums[center] is equal to the target. If it is, return the index center because the target element has been found.
+  *  If not, compare nums[left] with nums[center] to determine which part of the array is sorted. This helps decide which direction to move the search:
+  *  If the left part is sorted (nums[left] <= nums[center]), it checks if the target is within this sorted portion. If the target is within this range, it updates right to center - 1 to search the left side; otherwise, it moves the search to the right.
+  *  If the right part is sorted (nums[center] < target), it checks if the target is within this sorted portion. If the target is within this range, it updates left to center + 1 to search the right side; otherwise, it moves the search to the left.
+5. The loop continues until left is greater than right, at which point it exits.
+
+6. If the target element is not found during the search, the function returns -1 to indicate that the target is not present in the array.
+
+************************************
+
+Solution :
+
+class Solution {
+    public int search(int[] nums, int target) {
+
+        int left=0;
+        int right=nums.length-1;
+        while (left <= right ){
+            int center=(left+right)/2;
+            if(nums[center]==target){
+                return center;
+            }
+            if(nums[left]<=nums[center]){
+                if(nums[center]>target && nums[left]<=target){
+                    right=center-1;
+                }
+                else{
+                    left=center+1;
+                }
+            }
+            else{
+                if (nums[center]<target && nums[right]>=target){
+                    left=center+1;
+                }
+                else{
+                    right=center-1;
+                }
+            } 
+
+        }
+        return -1;
+    }
+}
