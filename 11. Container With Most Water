@@ -1,0 +1,47 @@
+Problem : https://leetcode.com/problems/container-with-most-water/
+
+***********************************
+
+Explanation :
+
+1. Initialize two pointers, left at the beginning of the array (index 0) and right at the end of the array (index height.length - 1).
+
+2. Initialize a variable max to keep track of the maximum area, initially set to 0.
+
+3. Enter a loop that continues as long as the left pointer is less than the right pointer.
+
+4. Calculate the current area between the two pointers, which is the minimum height of the lines at left and right multiplied by the distance between them. This is done with the formula: cur = (right - left) * Math.min(height[right], height[left]).
+
+5. Update the max variable to store the maximum area found so far, by taking the maximum of the current area cur and the current max.
+
+6. Now, you compare the heights of the lines at left and right. If the height at right is greater or equal, you increment the left pointer, effectively moving it closer to the center. Otherwise, you decrement the right pointer, moving it towards the center. This step is crucial because it ensures that you are always considering the possibility of a taller line to maximize the area.
+
+7. Repeat steps 4-6 until the left pointer is no longer less than the right pointer.
+
+8. Finally, return the max value, which represents the maximum area between two lines in the histogram.
+
+*********************************
+
+Solution : 
+
+class Solution {
+    public int maxArea(int[] height) {
+        int left=0;
+        int right =height.length-1;
+        int max=0;
+        while (left<right){
+            int cur=(right-left)*Math.min(height[right],height[left]);
+            max=Math.max(max,cur);
+            
+            if(height[right]>=height[left]){
+                left++;
+            }
+            else{
+                right-- ;
+            }
+            
+        }
+        return max;
+
+    }
+}
