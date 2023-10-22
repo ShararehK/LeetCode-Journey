@@ -1,0 +1,38 @@
+Problem : https://leetcode.com/problems/sum-of-two-integers/
+
+************************************
+
+Explanation : 
+
+Let's take an example where a is 3 (binary: 0011) and b is 5 (binary: 0101).
+
+1. The while loop starts with b not equal to 0, and it's a key part of the iterative process.
+
+2. Inside the loop:
+
+    a. int c = a & b; calculates the carry bit (c) by performing a bitwise AND operation between a and b. The result is a new integer c where each bit represents whether there is a carry at that position in the addition. In this example, c is initially 0001, which means there's a carry from the lowest bit.
+
+    b. a = a ^ b; calculates the sum of a and b without considering the carry. It uses a bitwise XOR operation between a and b. In this example, after this operation, a becomes 0110, which represents the partial sum without the carry.
+
+    c. b = c << 1; shifts the carry bit one position to the left. This is done because you need to add the carry bit to the next position in the next iteration. So, b becomes 0010 after the left shift.
+
+3. The loop continues, and the process repeats with the updated values of a and b. The carry bit is calculated, and then the partial sum is updated, and the carry is shifted.
+
+4. This process continues until b becomes 0. At this point, all the carry bits have been incorporated into the sum, and a holds the final result.
+
+In the example with a = 3 and b = 5, after a few iterations, a will contain the binary representation of 8, which is the sum of 3 and 5.
+
+****************************************
+
+Solution : 
+
+class Solution {
+    public int getSum(int a, int b) {
+        while (b!=0){
+            int c = a&b;
+            a=a^b;
+            b=c<<1;
+        }
+        return a;
+    }
+}
