@@ -1,0 +1,39 @@
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+
+*********************************
+
+Explanation :
+
+1. Initialize left to the beginning of the array (index 0) and right to the end of the array.
+
+2. Enter a while loop that continues as long as left is less than right.
+
+3. Inside the loop:
+
+  *  Calculate the center as the midpoint between left and right.
+  *  Compare nums[center] with nums[right]. If nums[center] is less than nums[right], it means the minimum element must be on the left side, so right is updated to center.
+  *  If nums[center] is greater than or equal to nums[right], it means the minimum element is on the right side, so left is updated to center + 1.
+4. Continue the loop until left is no longer less than right.
+
+5. Finally, return the value of nums[left], which represents the minimum element in the rotated and sorted array.
+
+******************************
+
+Solution :  
+
+class Solution {
+    public int findMin(int[] nums) {
+        int left=0;
+        int right=nums.length-1;
+        while(left<right){
+            int center=(right+left)/2;
+            if(nums[center]<nums[right]){
+                right=center;
+            }
+            else{
+                left=center+1;
+            }
+        }
+        return nums[left];
+    }
+}
