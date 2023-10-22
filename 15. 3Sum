@@ -1,0 +1,66 @@
+Problem : https://leetcode.com/problems/3sum/
+
+********************************
+
+Explanation :
+
+1. First, the nums array is sorted in ascending order using Arrays.sort(nums). Sorting the array is a crucial step because it simplifies the process of finding triplets that sum to zero.
+
+2. A List<List<Integer>> called result is initialized to store the triplets that meet the criteria.
+
+3. The solution uses a nested loop structure. The outer loop iterates through the array from the beginning to the second-to-last element (up to nums.length - 2). The purpose of this loop is to select the first element of the triplet (denoted by nums[i]).
+
+4. Inside the outer loop, there is a conditional check: if (i > 0 && nums[i] == nums[i - 1]). This condition is used to skip duplicate values of nums[i]. If nums[i] is the same as the previous element and i is not at the beginning of the array, it continues to the next iteration to avoid duplicate triplets.
+
+5. After selecting the first element, two pointers, left and right, are initialized. left starts immediately after nums[i], and right is at the end of the array.
+
+6. The inner loop, controlled by the while (left < right) condition, is responsible for finding pairs of nums[left] and nums[right] that, when combined with nums[i], sum to zero.
+
+7. Inside the inner loop, there are three cases to consider:
+
+  *  If nums[i] + nums[left] + nums[right] == 0, a valid triplet has been found. It is added to the result list.
+  *  The inner while loops following the triplet addition serve to skip any duplicate values of nums[left] and nums[right.
+  *  If nums[i] + nums[left] + nums[right] > 0, it means the current triplet sum is too large, so the right pointer is moved to the left to reduce the sum.
+  *  If nums[i] + nums[left] + nums[right] < 0, it means the current triplet sum is too small, so the left pointer is moved to the right to increase the sum.
+8. The outer loop (step 3) continues to the next element (increasing i), and the process is repeated until all valid triplets have been found.
+
+9. Finally, the result list containing all unique triplets that sum to zero is returned.
+
+***********************************
+
+Solution : 
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> result=new ArrayList<>();
+        for(int i =0 ;i<nums.length-2;i++){
+            if(i>0 && nums[i]==nums[i-1]){
+                continue;
+            }
+            int right =nums.length-1;
+            int left = i+1;
+            while (left <right){
+                if(nums[left]+nums[right]+nums[i]==0){
+                    result.add(Arrays.asList(nums[i],nums[left],nums[right]));
+                    while(left<right && nums[right]==nums[right-1]){
+                        right--;
+                    }
+                    while(left<right && nums[left]==nums[left+1]){
+                        left++;
+                    }
+                    right--;
+                    left++;
+                }
+                else if (nums[left]+nums[right]+nums[i]>0){
+                        right--;
+                }
+                else{
+                        left++;
+                }
+            }
+        }
+        return result;
+
+    }
+}
