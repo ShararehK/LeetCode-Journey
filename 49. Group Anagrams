@@ -1,0 +1,42 @@
+Problem : https://leetcode.com/problems/group-anagrams/
+
+**********************
+
+Explanation :
+
+1. We define a class called Solution with a method called groupAnagrams that takes an array of strings (strs) as input and returns a list of lists, where each inner list contains anagrams of each other.
+
+2. We create a HashMap named hash to store the anagram groups. The keys in this map will be the sorted versions of strings (anagrams will have the same sorted version), and the values will be lists of original strings that are anagrams of each other.
+
+3. We loop through each string in the input array strs.
+
+4. For each string, we convert it into a character array and sort it. The sorted string is stored in the sortedString variable.
+
+5. We check if sortedString is already a key in the hash map. If it's not, we create a new ArrayList and associate it with the sortedString key.
+
+6. We then add the original string to the ArrayList associated with the sortedString key. This way, we are grouping anagrams together in the HashMap.
+
+7. After processing all the strings, we return a new ArrayList containing the values (lists of anagrams) from the hash map. This list of lists represents the grouped anagrams.
+
+*************************
+
+Solution :
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String , ArrayList<String>> hash=new HashMap();
+        // ArrayList<String> lst=null; 
+        for(int i =0;i<strs.length;i++){
+            char[] chars=strs[i].toCharArray();
+            Arrays.sort(chars);
+            if(!hash.containsKey(String.valueOf(chars))){
+                hash.put(String.valueOf(chars), new ArrayList<>());
+            }
+            
+            hash.get(String.valueOf(chars)).add(strs[i]);
+            }
+            
+        return new ArrayList<>(hash.values());
+        
+    }
+}
