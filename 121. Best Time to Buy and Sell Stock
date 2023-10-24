@@ -1,0 +1,33 @@
+Problem : https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+****************************
+
+Explanation :
+
+The algorithm works because it efficiently tracks the minimum stock price encountered so far (min) and computes the maximum profit that can be obtained by selling the stock at different prices in the prices array. Here's why it works:
+
+  1. Tracking the Minimum Price (min): The variable min keeps track of the lowest stock price encountered while iterating through the prices array. It's essential because it represents the optimal buying point. By continuously updating min to the minimum of the current min and the current stock price, the algorithm ensures that it always considers the best time to buy the stock.
+
+  2. Calculating Profit: At each step, the algorithm calculates the profit that could be obtained by selling the stock at the current price (prices[i] - min). This represents the maximum possible profit if the stock were sold at this point. By keeping track of the maximum profit achieved so far (max_profit), the algorithm ensures that it doesn't miss the best selling point.
+
+  3. Updating Max Profit: The algorithm updates max_profit to be the maximum of the current max_profit and the profit calculated in step 2. This ensures that the algorithm retains the highest profit value found during the iteration.
+
+  4. Iteration Through Prices: By iterating through the entire array of stock prices, the algorithm considers all possible buying and selling points. It continuously updates min and max_profit based on the encountered prices. This way, it evaluates all possible scenarios and finds the optimal buying and selling points to maximize profit.
+
+In summary, the algorithm works because it systematically considers the best time to buy and sell the stock while keeping track of the lowest purchase price and the maximum profit achieved. By iterating through the price data and performing these calculations, it ensures that it finds the most profitable trading strategy based on historical stock prices.
+
+************************************
+
+Solution : 
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int max_profit=0;
+        int min=prices[0];
+        for (int i=0; i<prices.length;i++){
+            min=Math.min(min,prices[i]);
+            max_profit=Math.max(max_profit,prices[i]-min);
+        }
+        return max_profit;
+    }
+}
