@@ -1,0 +1,44 @@
+Problem : https://leetcode.com/problems/validate-binary-search-tree/
+
+*************************************
+
+Explanation : 
+
+
+The isValidBST method is the main function responsible for checking the validity of the binary tree. It takes the root node of the tree as its parameter.
+
+It calls a helper function valid with the root node and initial boundaries (minimum and maximum values).
+
+The valid method is a recursive function that checks the validity of the tree:
+
+1. If the current node is null, it returns true because an empty tree is always a valid BST.
+
+2. It checks if the current node's value is within the allowed range (between min and max). If not, it returns false.
+
+3. It then recursively checks the left and right subtrees, updating the boundaries (minimum and maximum values) for each subtree to ensure the BST conditions are met.
+
+4. The use of Long.MIN_VALUE and Long.MAX_VALUE as initial boundaries helps handle edge cases where the tree contains nodes with the minimum or maximum int values.
+
+5. The code uses a depth-first search approach to traverse the tree and check if it meets the conditions of a valid BST.
+
+6. If the binary tree is a valid BST, the isValidBST function returns true; otherwise, it returns false.
+
+**********************************************
+
+Solution :
+
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return valid(root,Long.MIN_VALUE,Long.MAX_VALUE);
+    }
+    public boolean valid(TreeNode node,long min,long max){
+        if(node== null){
+            return true;
+        }
+        if(node.val>=max || node.val <=min){
+            return false;
+        }
+        return valid(node.left,min,node.val)&& valid (node.right,node.val,max);
+    }
+}
