@@ -2,6 +2,21 @@ Problem : https://leetcode.com/problems/climbing-stairs/
 
 Explanation :
 
+First solution :
+
+1. Create an array dp of size n + 1 to store the number of ways to climb each step from 0 to n.
+
+2. Initialize dp[0] and dp[1] to 1. These represent the base cases: there is one way to climb 0 step (by not climbing at all) and one way to climb 1 step (by taking that one step).
+
+3. Use a loop that starts from i = 2 and goes up to n. In each iteration:
+    *    Calculate dp[i] by adding dp[i-1] (the number of ways to reach the previous step) and dp[i-2] (the number of ways to reach the step before the previous step). This is based on the principle that to reach step i, you can either take one step from step i-1 or two steps from step i-2.
+    *    Update dp[i] with the calculated value.
+
+4. After the loop, dp[n] will contain the number of distinct ways to climb to the top of the staircase with n steps, and you return this value.
+
+
+second solution :
+
 1. Initialize two variables, one and two, both set to 1. These variables represent the number of distinct ways to reach the current step using one and two steps, respectively. Since there's only one way to reach the first step (by taking one step), both are initialized to 1.
 
 2. Use a for loop to iterate from i = 0 to n - 1. The loop handles the cases for n greater than 2.
@@ -21,15 +36,24 @@ Solution :
 
 class Solution {
     public int climbStairs(int n) {
-
-        int one =1;
-        int two =1;
-        for(int i =0;i<n-1;i++){
-            int temp=one;
-            one =one +two;
-            two=temp;
+        //first solution 
+        int[] dp=new int[n+1];
+        dp[0]=1;
+        dp[1]=1;
+        for(int i=2;i<dp.length;i++){
+            dp[i]=dp[i-1]+dp[i-2];
         }
-        return one;
+        return dp[n];
+
+        //second solution
+        //int one =1;
+        //int two =1;
+        //for(int i =0;i<n-1;i++){
+        //    int temp=one;
+        //    one =one +two;
+        //    two=temp;
+        //}
+        //return one;
     }
 }
 
