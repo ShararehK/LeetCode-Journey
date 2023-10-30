@@ -1,0 +1,139 @@
+Problem : https://leetcode.com/problems/valid-parentheses/
+
+***********************
+
+Explanation :
+
+I solve this questions in 3 different ways as you can see my code but i will explain the most efficient one : 
+
+1. You initialize a Stack<Character> called stk to keep track of open brackets in the string.
+
+2. You loop through each character, c, in the input string, s, using a for-each loop for (char c : s.toCharArray()).
+
+3. Inside the loop, you have several conditions:
+
+4. If c is an open bracket, i.e., '(', '[', or '{', you push the corresponding closing bracket onto the stack. For example, if c is '(', you push ')' onto the stack.
+
+5. If c is not an open bracket (i.e., it's a closing bracket or any other character), you check if the stack is empty or if the top element of the stack (the most recently added open bracket) matches c. If the stack is empty or the top element does not match, it means the string is not valid, and you return false.
+
+6. After processing all characters in the input string, you check if the stack is empty. If it's not empty, there are unmatched open brackets left in the stack, indicating an invalid string. In this case, you return false.
+
+7. If the stack is empty at the end of the loop, it means all open brackets have been correctly matched and closed, and the string is valid. You return true.
+
+
+******************************************
+
+Solution :
+
+class Solution {
+    public boolean isValid(String s) {
+
+        //********************using stack and optimize  ***************** runtime 1ms
+
+        Stack<Character> stk=new Stack <>();
+        for (char c : s.toCharArray()){
+            if(c=='(') stk.push(')');
+            else if (c=='[') stk.push(']');
+            else if (c=='{') stk.push('}');
+            else if(stk.isEmpty() || stk.pop()!=c){
+                return false;
+            } 
+        }
+        if(!stk.isEmpty()){
+            return false;
+        }
+        return true;
+
+
+        // *************   using stack and switch case **********  15ms runtime
+
+        // Stack<Character> stk=new Stack<>();
+        // for(int i=0; i < s.length();i++){
+        //     System.out.println(s.charAt(i));
+        //     switch(s.charAt(i)){
+        //         case '(' :
+        //         case '[': 
+        //         case '{':
+        //             stk.push(s.charAt(i));
+        //             break;
+        //         case ']':
+        //             if(stk.isEmpty() || stk.pop()!='[' ){
+        //                 return false;
+        //             }
+        //             break;
+        //         case ')':
+        //             if(stk.isEmpty() || stk.pop()!='('){
+        //                 return false;
+        //             }
+        //             break;
+        //         case '}':
+        //             if(stk.isEmpty() || stk.pop()!='{'){
+        //                 return false;
+        //             }
+        //             break;
+        //     }
+        // }
+        // if(!stk.isEmpty()){
+        //     return false;
+        // }
+        // return true;
+
+
+        //*********************** Solution without stack ************* 2ms runtime
+
+        // if(s.length()==1){
+        //     return false;
+        // }
+        // char[] c=s.toCharArray();
+        // if (c[0]=='}'||c[0]==')'|| c[0]==']'){
+        //     return false;
+        // }
+        // List ls=new ArrayList();
+        // for(int i=0;i<s.length();i++){
+        //     if(c[i]=='('|| c[i]=='['||c[i]=='{'){
+        //         ls.add(c[i]);
+        //     }
+        //     else{
+        //         if (ls.size()>0){
+        //             switch(c[i]){
+        //             case '}':
+        //                 if(ls.get(ls.size()-1).equals('{')){
+        //                     ls.remove(ls.size()-1);
+        //                 }
+        //                 else{
+        //                     return false;
+        //                 }
+        //                 break;
+        //             case ')':
+        //                 if(ls.get(ls.size()-1).equals('(')){
+        //                     ls.remove(ls.size()-1);
+        //                 }
+        //                 else{
+        //                     return false;
+        //                 }
+        //                 break;
+        //             case ']':
+        //                 if(ls.get(ls.size()-1).equals('[')){
+        //                     ls.remove(ls.size()-1);
+        //                 }
+        //                 else{
+        //                     return false;
+        //                 }
+        //                 break;
+        //         }
+                
+        //         }
+        //         else{
+        //             return false;
+        //         }
+
+        //     }
+        // }
+        // if(ls.size()==0){
+        //     return true;
+        // }
+        // else{
+        //     return false;
+        // }
+    }
+}
