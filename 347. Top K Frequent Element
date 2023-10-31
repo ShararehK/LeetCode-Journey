@@ -1,0 +1,43 @@
+Problem : https://leetcode.com/problems/top-k-frequent-elements/
+
+**************************
+
+Explanation :
+
+1. Count Frequencies: First, the code counts the frequency of each unique element in the nums array and stores this information in a HashMap called hash. The keys in the map are the unique elements from nums, and the values are their respective frequencies.
+
+2. Create a Max-Heap: Next, a max-heap (PriorityQueue) named maxHeap is created. This heap is used to maintain elements in descending order of their frequency. Elements are compared based on their frequency values, with the most frequent elements at the top.
+
+3. Fill the Max-Heap: The code iterates through the unique elements in the hash map and adds each element to the maxHeap. As elements are added, the max-heap automatically rearranges itself so that the most frequent elements are at the top.
+
+4. Retrieve the Top k Elements: Finally, the code retrieves the top k frequent elements from the maxHeap by repeatedly calling maxHeap.poll(). These elements are stored in the result array, which is then returned.
+
+In summary, the code first counts the frequency of elements, uses a max-heap to order them by frequency, and then extracts the top k elements in descending order of their frequency. The result is an array containing the k most frequent elements from the input array.
+
+**************************
+Solution : 
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Integer> hash=new HashMap<>();
+        for(int i: nums){
+            if(hash.containsKey(i)){
+                hash.put(i,hash.get(i)+1);
+            }
+            else{
+                hash.put(i,1);
+            }
+        }
+        int[] result=new int[k];
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(
+            (a, b) -> hash.get(b) - hash.get(a)
+        );
+        for(int i : hash.keySet()){
+            maxHeap.add(i);
+        }
+        for(int i=0; i <k;i++){
+            result[i]=maxHeap.poll();
+        }
+        return result;
+    }
+}
