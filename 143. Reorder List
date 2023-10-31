@@ -1,0 +1,74 @@
+Problem :  https://leetcode.com/problems/reorder-list/
+
+********************************
+
+Explanation :
+
+1. Find the Middle of the List:
+You start by finding the middle point of a linked list. You do this by having two pointers, one (slow) that moves one step at a time and another (fast) that moves two steps at a time. When the fast pointer reaches the end of the list, the slow pointer will be at the middle.
+
+2. Reverse the Second Half:
+After finding the middle, you want to reverse the second half of the list. You use a couple of pointers (cur and prev) to do this. Essentially, you're flipping the direction of the pointers to reverse the order of nodes.
+
+3. Merge the Two Halves:
+Finally, you merge the two halves of the list. You take one node from the first half and one from the reversed second half, and you alternate them to create a reordered list. This is done by updating the next pointers of the nodes.
+
+
+In simpler terms, your code takes a linked list, finds its middle, reverses the second half, and then mixes the nodes from the first half and the reversed second half to reorder the list. This is done in place, so you're not creating a new list. The end result is a reordered linked list.
+
+
+********************************
+
+Solution :
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+
+        // find the middle of the linkedlist:
+
+        ListNode slow=head;
+        ListNode fast=head;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        // we have the middle of the linkedlist which is slow 
+        // System.out.println(slow.val);
+
+
+        // now we wanna reverse the second half of the linkedlist :
+        ListNode cur=slow;
+        ListNode prev=null;
+        while (cur!=null){
+            ListNode temp=cur.next;
+            cur.next=prev;
+            prev=cur;
+            cur=temp;
+        }
+        // we have the second half of the linkedlist reversed by having prev;
+        // System.out.println(prev.val);
+
+        // Merge the two halves:
+        ListNode first = head;
+        ListNode second = prev;
+        while (second.next != null) {
+            ListNode temp1 = first.next;
+            first.next = second;
+            first = temp1;
+
+            ListNode temp2 = second.next;
+            second.next = first;
+            second = temp2;
+        }
+    }
+}
