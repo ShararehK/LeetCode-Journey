@@ -1,0 +1,59 @@
+Problem : https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+
+***************************
+
+Explanation :
+
+1. First, we create a "dummy" node and attach it to the beginning of the linked list. This dummy node makes it easier to handle edge cases.
+
+2. We use two pointers, a "fast" pointer and a "slow" pointer, both initially pointing at the dummy node.
+
+3. The "fast" pointer moves ahead by "n" nodes. This helps us find the "n"-th node from the end.
+
+4. Then, both the "fast" and "slow" pointers move together towards the end of the list until the "fast" pointer reaches the end. The "slow" pointer will be at the node just before the one we want to remove.
+
+5. Finally, we remove the "n"-th node by adjusting the "next" pointer of the "slow" node to skip the "n"-th node. This effectively removes it from the list.
+
+6. We return the list starting from the dummy node's next, which is the real head of the modified list.
+
+****************************
+
+Solution : 
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null) {
+            return null;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode fast = dummy;
+        ListNode slow = dummy;
+
+        // Move the fast pointer n nodes ahead
+        for (int i = 0; i <= n; i++) {
+            fast = fast.next;
+        }
+
+        // Move both pointers until the fast pointer reaches the end
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        // Remove the nth node from the end
+        slow.next = slow.next.next;
+
+        return dummy.next;
+    }
+}
