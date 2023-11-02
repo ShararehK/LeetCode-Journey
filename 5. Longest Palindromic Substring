@@ -1,0 +1,57 @@
+Problem : https://leetcode.com/problems/longest-palindromic-substring/
+
+*******************************
+
+Explanation : 
+
+Main Function (longestPalindrome):
+
+  1. It starts by initializing two variables, start and end, to keep track of the starting and ending indices of the longest palindromic substring found so far. Initially, they are both set to 0.
+  2. It loops through the characters in the input string s one by one (from left to right).
+  3. For each character, it calls the expandFromMiddle function twice:
+    *  First, it calls expandFromMiddle with the current character as the middle character (if the string's length is odd).
+    *  Second, it calls expandFromMiddle with the current character and the next character as the middle characters (if the string's length is even).
+  4. It then compares the lengths of the palindromes found in the two steps and keeps track of the longest one.
+  5. If a longer palindrome is found, it updates the start and end variables to the new palindrome's start and end positions.
+
+
+Helper Function (expandFromMiddle):
+
+  1. This function takes a string s, a left index, and a right index as input.
+  2. It checks if the characters at the left and right indices are the same and continue to expand outwards.
+  3. While the characters are the same and within the boundaries of the string, it expands the palindrome by moving the left index to the left and the right index to the right.
+  4. The function returns the length of the palindrome found in this process.
+Why It Works:
+
+The code works because it systematically checks all possible palindromes in the input string by considering each character as the middle of a potential palindrome.
+It expands outwards to find the longest palindrome centered around that character, both for odd and even-length palindromes. 
+This approach ensures that it finds the longest palindromic substring in the given string.
+
+******************************
+
+Solution : 
+
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s.length() ==1) return s;
+        int start=0;
+        int end = 0;
+        for(int i=0; i<s.length();i++){
+            int len=Math.max(expalndFromMiddle(s,i,i),expalndFromMiddle(s,i,i+1));
+            if (len>end -start){
+                start=i-((len-1)/2);
+                end =i + len/2;
+            }
+        }
+        return s.substring(start,end+1);
+    }
+    public int expalndFromMiddle(String s, int left, int right){
+        if(right<left) return 0;
+        while (left>=0 && right <s.length() && s.charAt(left)== s.charAt(right)){
+            right++;
+            left--;
+        }
+        return right-left-1;
+    }
+}
+
