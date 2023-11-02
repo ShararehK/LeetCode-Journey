@@ -1,0 +1,51 @@
+Problem : https://leetcode.com/problems/palindromic-substrings/
+
+*************************
+
+Explanation : 
+
+Here is the Broute Force Solution which has O(n^3) time complexity , I will update my code and use better solutions in the future. Here's a simple explanation:
+
+1. It checks if the string has only one character; if so, it's a palindrome itself, and the count is 1.
+
+2. It sets up a counter to keep track of the number of palindromic substrings.
+
+3. It looks at each character in the string and treats it as the possible center of a palindrome.
+
+4. Then, it expands from that center to both the left and right to see how long a palindrome it can create.
+
+5. For every valid palindrome it finds, it increases the counter.
+
+6. At the end, it returns the total count of palindromic substrings.
+
+7. The isPalindrome function helps determine if a given string is a palindrome by comparing its characters from the start and end. If it finds any differences, it's not a palindrome.
+
+***************************
+
+Solution : 
+
+class Solution {
+    public int countSubstrings(String s) {
+        if(s.length()==1) return 1;
+        int count=0;
+        for(int i=0; i < s.length() ; i++){
+            for (int j=i+1;j<=s.length();j++){
+                if (isPalindrome(s.substring(i,j))){
+                    count ++;
+                }
+            }
+        }
+        return count;
+    }
+    public boolean isPalindrome(String s){
+        if(s.length()==1) return true;
+
+        for(int i=0; i <s.length();i++){
+            if(s.charAt(i)!=s.charAt(s.length()-i-1)){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
