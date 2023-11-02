@@ -1,0 +1,51 @@
+Problem : https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+*****************
+
+Explanation : 
+
+1. If the input string is empty or has only one character, it returns its length as the result.
+
+2. It initializes max to keep track of the maximum length of the substring without repeating characters.
+
+3. It also initializes two pointers, left and right, representing the current substring being considered. left starts at the beginning of the string, and right iterates through the string.
+
+4. It uses a charIndex map to store the most recent index of each character seen in the string.
+
+5. It enters a loop that iterates through the characters of the string from left to right.
+
+6. For each character at the right pointer, it checks if that character is already in the charIndex map. If it is, it means there is a repeating character. In this case, it updates the left pointer to the right of the last occurrence of the repeating character. This step is crucial for maintaining a substring without repeating characters.
+
+7. It updates the index of the current character in the charIndex map.
+
+8. It updates the max with the maximum length found so far.
+
+9. After the loop finishes, it returns the max as the length of the longest substring without repeating characters.
+
+***********************
+
+Solution :
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length() <= 1) return s.length(); // If the string is empty or has only one character, return its length.
+
+        int max = 0; // Initialize the maximum length to 0.
+        int left = 0; // Initialize the left pointer to the start of the string.
+        Map<Character, Integer> charIndex = new HashMap<>(); // Create a map to store the index of each character.
+
+        for (int right = 0; right < s.length(); right++) {
+            char currentChar = s.charAt(right);
+
+            if (charIndex.containsKey(currentChar)) {
+                // If the current character is already in the map, update the left pointer to the right of its last occurrence.
+                left = Math.max(left, charIndex.get(currentChar) + 1);
+            }
+
+            charIndex.put(currentChar, right); // Update the index of the current character.
+            max = Math.max(max, right - left + 1); // Update the maximum length.
+        }
+
+        return max;
+    }
+}
