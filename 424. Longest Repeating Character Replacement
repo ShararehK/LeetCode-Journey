@@ -1,0 +1,47 @@
+Problem : https://leetcode.com/problems/longest-repeating-character-replacement/
+
+************************
+
+Explanation : 
+
+1. It initializes a sliding window (a portion of the string) starting at the beginning of the string.
+
+2. The code keeps track of the maximum character frequency (maxFreq) within this window.
+
+3. It processes the string one character at a time, extending the window to the right.
+
+4. When it extends the window, it updates the character count and maxFreq. If the difference between the length of the window and maxFreq exceeds k, it means you have more than k characters to change, so it shrinks the window from the left by moving the start index.
+
+5. As it moves through the string, it continually updates maxLen, which represents the length of the longest valid substring.
+
+6. The code repeats these steps for all characters in the string, keeping track of the longest valid substring.
+
+The reason this works is that it efficiently maintains a sliding window that meets the requirements. It adjusts the window as it iterates through the string to maximize the length of the substring where you can change at most k characters to make all characters the same. 
+By tracking the maximum character frequency, it ensures that you don't exceed the allowed replacements. 
+This sliding window approach guarantees that the final maxLen is the length of the longest valid substring that fulfills the problem's conditions.
+
+***********************
+
+Solution : 
+
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int start=0;
+        int maxLen=0;
+        int maxFreq=0;
+        HashMap<Character , Integer> hash=new HashMap<>();
+        int[] charCount=new int[26];
+        for (int end=0 ; end <s.length(); end ++){
+            charCount[s.charAt(end)-'A']++;
+            maxFreq=Math.max(charCount[s.charAt(end)-'A'], maxFreq);
+
+            while (end-start-maxFreq+1>k){
+                charCount[s.charAt(start)-'A']--;
+                start ++;
+            }
+            maxLen=Math.max(maxLen, end-start+1);
+        }
+        return maxLen;
+    }
+} 
+
