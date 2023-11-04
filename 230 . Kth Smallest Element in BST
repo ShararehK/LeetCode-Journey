@@ -1,0 +1,52 @@
+Problem : https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+
+*****************
+
+Explanation : 
+
+1. The kthSmallest method takes a TreeNode called root and an integer k as input and returns the kth smallest element.
+
+2. If the root is null (meaning the tree is empty), the function returns 0.
+
+3. It initializes an empty list called lst to store values from the tree.
+
+4. It calls the inOrderTraversal method to perform an in-order traversal of the tree, collecting values in ascending order and adding them to the lst.
+
+5. It sorts the lst in ascending order using Collections.sort().
+
+6. Finally, it returns the kth smallest element, which is the value at the index k - 1 in the sorted list.
+
+******************
+
+Solution : 
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        if (root == null) return 0;
+        List<Integer> lst=new ArrayList();
+        inOrderTraversal(root,lst);
+        Collections.sort(lst);
+        return lst.get(k-1);
+    }
+    public void inOrderTraversal(TreeNode node, List<Integer> lst){
+            if (node==null) return ;
+            inOrderTraversal(node.left,lst);
+            lst.add(node.val);
+            inOrderTraversal(node.right,lst);
+        }
+}
