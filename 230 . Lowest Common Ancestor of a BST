@@ -1,0 +1,45 @@
+Problem : https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+
+*****************************
+
+Explanation : 
+
+1. Start at the root of the BST (root).
+2. While traversing down the tree:
+  *  If both p and q are in the left subtree (i.e., both values are less than the current node's value), move to the left child.
+  *  If both p and q are in the right subtree (i.e., both values are greater than the current node's value), move to the right child.
+  *  When p and q are on different sides of the current node, that node is the LCA.
+3. Return the found LCA.
+4. If no common ancestor is found (i.e., one of the nodes is not present in the tree), return null.
+
+*****************************
+
+Solution : 
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) return null;
+
+        TreeNode cur = root;
+        while (cur != null) {
+            if (p.val < cur.val && q.val < cur.val) {
+                cur = cur.left;  // Both nodes are in the left subtree.
+            } else if (p.val > cur.val && q.val > cur.val) {
+                cur = cur.right;  // Both nodes are in the right subtree.
+            } else {
+                return cur;  // Found the lowest common ancestor.
+            }
+        }
+        return null;  // No common ancestor found.
+    }
+}
