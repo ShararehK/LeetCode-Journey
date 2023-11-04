@@ -1,0 +1,61 @@
+Problem :  https://leetcode.com/problems/spiral-matrix/
+
+********************
+
+Explanation :
+
+1. Create an empty list called lst to store the elements in spiral order.
+
+2. Initialize four variables, top, bottom, left, and right, to represent the boundaries of the current spiral.
+
+3. Use a while loop to continue the spiral traversal as long as the top is less than or equal to the bottom and the left is less than or equal to the right. This condition ensures that you spiral inward without going beyond the boundaries of the matrix.
+
+4. Within the loop, there are four for loops, each responsible for traversing one side of the current spiral:
+
+  *  The first for loop iterates from left to right along the top row, adding elements to the lst.
+  *  The top boundary is then incremented to move to the next row.
+  *  The second for loop traverses from top to bottom along the right column, adding elements.
+  *  The right boundary is decremented to move to the next column.
+  *  The third for loop goes from right to left along the bottom row, adding elements if there's more than one row.
+  *  The bottom boundary is decremented.
+  *  The fourth for loop traverses from bottom to top along the left column, adding elements if there's more than one column.
+  *  The left boundary is incremented.
+5. The process continues until the entire matrix has been traversed in a spiral order.
+
+6. Finally, the lst containing the elements in spiral order is returned.
+
+***********************
+
+Solution :
+
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List <Integer> lst=new ArrayList();
+        int top = 0, bottom = matrix.length - 1, left = 0, right = matrix[0].length - 1;
+
+        while (top <= bottom && left <= right) {
+            for(int i=left ; i<=right; i++ ){
+                lst.add(matrix[top][i]);
+            }
+            top++;
+            for(int i=top ; i<=bottom; i++ ){
+                lst.add(matrix[i][right]);
+            }
+            right--;
+             if (top <= bottom) {
+            for(int i=right ; i>=left; i-- ){
+                lst.add(matrix[bottom][i]);
+            }
+            bottom --;
+            }
+            if(left<=right){
+                for(int i=bottom ; i>=top; i-- ){
+                lst.add(matrix[i][left]);
+            }
+            left++;
+            }
+            
+        }
+        return lst;
+    }
+}
