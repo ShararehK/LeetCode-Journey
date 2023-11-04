@@ -1,0 +1,62 @@
+Problem : https://leetcode.com/problems/set-matrix-zeroes/
+
+****************
+
+Explanation : 
+
+1. It first determines the number of rows and columns in the input matrix.
+
+2. Two boolean arrays, zeroRows and zeroCols, are created to track which rows and columns should be zeroed.
+
+3. The code then iterates through the matrix to identify elements with the value 0.
+
+4. For each element with the value 0, it sets the corresponding positions in zeroRows and zeroCols to true, indicating that the respective rows and columns should be zeroed.
+
+5. After marking rows and columns to be zeroed, the code iterates through the matrix again to zero out the rows and columns that were marked.
+
+6. It zeros out the rows by setting all elements in a marked row to 0.
+
+7. It zeros out the columns by setting all elements in a marked column to 0.
+
+*****************
+
+Solution :
+
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        
+        // Create two arrays to track rows and columns that should be zeroed.
+        boolean[] zeroRows = new boolean[rows];
+        boolean[] zeroCols = new boolean[cols];
+        
+        // Iterate through the matrix to mark rows and columns.
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (matrix[i][j] == 0) {
+                    zeroRows[i] = true;
+                    zeroCols[j] = true;
+                }
+            }
+        }
+        
+        // Zero out rows.
+        for (int i = 0; i < rows; i++) {
+            if (zeroRows[i]) {
+                for (int j = 0; j < cols; j++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        
+        // Zero out columns.
+        for (int j = 0; j < cols; j++) {
+            if (zeroCols[j]) {
+                for (int i = 0; i < rows; i++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+}
