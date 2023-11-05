@@ -1,0 +1,46 @@
+Problem : https://leetcode.com/problems/rotate-image/
+
+*************************
+
+Explanation :
+
+1. Calculate the number of rows (row) and columns (col) in the matrix. In a square matrix, the number of rows is equal to the number of columns.
+
+2. The first part of the code is responsible for transposing the matrix:
+
+  *  It loops through each row and column in the upper triangle of the matrix (above the main diagonal).
+  *  For each pair of elements at positions (i, j) and (j, i), it swaps their values. This effectively turns rows into columns and vice versa. This step creates a 90-degree counterclockwise rotation.
+3. The second part of the code is responsible for completing the 90-degree clockwise rotation:
+
+  *  It loops through each row and up to half of the columns.
+  *  For each pair of elements at positions (i, j) and (i, col-j-1), it swaps their values. This step changes the order of columns, effectively rotating the matrix by 90 degrees clockwise.
+
+*******************************
+  
+Solution : 
+
+class Solution {
+    public void rotate(int[][] matrix) {
+        int col=matrix.length;
+        int row=matrix[0].length;
+
+        // make each row to a column
+        for(int i=0;i<row;i++){
+            for(int j=i;j<col;j++){
+                int temp=matrix[i][j];
+                matrix[i][j]=matrix[j][i];
+                matrix[j][i]=temp;
+            }
+        }
+        // change the place of columns in a way that first col showld be last and so on 
+
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col/2;j++){
+                int temp=matrix[i][j];
+                matrix[i][j]=matrix[i][col-j-1];
+                matrix[i][col-j-1]=temp;
+            }
+        }
+
+    }
+}
