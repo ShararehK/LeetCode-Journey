@@ -1,0 +1,70 @@
+Problem : https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+
+****************************
+
+Explanation : 
+
+1. The goal is to build a binary tree using the preorder and inorder traversal arrays.
+
+2. The buildTree function is a recursive approach to construct the binary tree. It takes the preorder array, the current left and right indices, and uses a preorderIndex to keep track of the current node being processed in the preorder array.
+
+3. If left is greater than right, it means there are no more elements to process in the current subtree, so it returns null.
+
+4. It gets the value of the root node from the preorder array using preorder[preorderIndex++]. This line first uses the current preorderIndex to access the element and then increments preorderIndex.
+
+5. It finds the index of the root node's value in the inorder array to determine the left and right subtrees' boundaries.
+
+6. Recursively, it constructs the left subtree with left to inorderIndex - 1 and the right subtree with inorderIndex + 1 to right.
+
+7. The process continues until the entire binary tree is constructed.
+
+***************************
+
+Solution : 
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+   int preorderIndex = 0;
+    HashMap<Integer, Integer> inorderIndexMap;
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+        inorderIndexMap = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            inorderIndexMap.put(inorder[i], i);
+        }
+
+        return buildTree(preorder, 0, n - 1);
+    }
+
+    private TreeNode buildTree(int[] preorder, int left, int right) {
+        if (left > right) {
+            return null;
+        }
+
+        int rootValue = preorder[preorderIndex++];//first put it current indexpre and then increament
+        TreeNode root = new TreeNode(rootValue);
+
+        int inorderIndex = inorderIndexMap.get(rootValue);
+
+        root.left = buildTree(preorder, left, inorderIndex - 1);
+        root.right = buildTree(preorder, inorderIndex + 1, right);
+
+        return root;
+    }
+}
