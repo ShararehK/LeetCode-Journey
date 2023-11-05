@@ -1,0 +1,61 @@
+Problem : https://leetcode.com/problems/word-search/
+
+*************************
+
+Explanation :
+
+1. The exist method initiates the search for the given word in the board. It iterates through each cell in the board and checks if the first character of the word matches the character in the current cell. If it does, it calls the searchWord function from that cell as the starting point for searching the rest of the word.
+
+2. The searchWord function is a recursive depth-first search (DFS) algorithm that checks if the word can be formed starting from a specific cell. It takes the current position (i, j), the board, the word, and the index indicating the current character to be matched.
+
+3. In the searchWord function:
+
+  *  If the index reaches the length of the word, it means the entire word has been successfully matched, so the function returns true.
+
+  *  It performs boundary checks to ensure that the current cell (i, j) is within the valid bounds of the board and that the character in the cell matches the character at the current index of the word.
+
+  *  The character in the current cell is temporarily replaced with a space (' ') to mark it as visited and to avoid revisiting.
+
+  *  The function recursively calls itself for the neighboring cells (up, down, left, and right) to check if the next character in the word can be found in any of these directions.
+
+  *  If any of these recursive calls returns true, the function returns true, indicating that the word has been found.
+
+  *  After the recursive calls, the original character in the cell is restored.
+
+4. If the searchWord function successfully finds the word starting from the current cell, it returns true. If not, it returns false.
+
+*************************
+
+Solution : 
+
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int m =board.length;
+        int n=board[0].length;
+        for(int i=0;i<m;i++){
+            for (int j=0;j<n;j++){
+                if(board[i][j]==word.charAt(0) && searchWord(i,j,board,word,0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean searchWord(int i , int j, char[][]board , String word , int index){
+        if (index== word.length()) return true;
+        if (i<0 || j<0|| i>=board.length || j>=board[0].length|| word.charAt(index)!=board[i][j]){
+            return false;
+        }
+        char originalChar = board[i][j];
+        board[i][j] = ' '; 
+        if (searchWord(i+1,j,board,word,index+1) ||
+        searchWord(i-1,j,board,word,index+1) ||
+        searchWord(i,j+1,board,word,index+1) ||
+        searchWord(i,j-1,board,word,index+1) 
+        ){
+            return true;
+        }
+        board[i][j] = originalChar;
+        return false;
+    }
+}
