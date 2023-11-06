@@ -1,0 +1,53 @@
+Problem : 
+
+********************************
+
+Explanation :
+
+1. The code uses a depth-first search (DFS) approach to explore the grid.
+
+2. It starts by checking the grid's dimensions (rows and columns).
+
+3. Then, it goes through each cell in the grid, looking for '1's.
+
+4. When it finds a '1', it starts a DFS from that cell to mark all connected '1's as part of the same island.
+
+5. It does this by changing all '1's in the island to '0', preventing them from being counted again.
+
+6. The code repeats this process for all '1's in the grid, counting the number of islands it discovers.
+
+7. Finally, it returns the count, which is the number of islands in the grid.
+
+In simple terms, this code helps you figure out how many groups of connected land cells (islands) are in a map, and it uses a technique called depth-first search to do it.
+
+*********************************
+
+Solution :
+
+class Solution {
+    int n;
+    int m;
+    public int numIslands(char[][] grid) {
+        n=grid.length;
+        if(n==0) return 0;
+        m=grid[0].length;
+        int count=0;
+        for (int i=0;i<n;i++){
+            for (int j=0;j<m;j++){
+                if(grid[i][j]=='1'){
+                    DFSMarking(grid,i,j);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    public void DFSMarking(char[][] grid , int i , int j){
+        if (i<0 || j<0|| i>=n || j>=m || grid[i][j]!='1') return;
+        grid[i][j]='0';
+        DFSMarking(grid,i+1,j);
+        DFSMarking(grid,i,j+1);
+        DFSMarking(grid,i-1,j);
+        DFSMarking(grid,i,j-1);
+    }
+}
