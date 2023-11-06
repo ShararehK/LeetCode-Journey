@@ -1,0 +1,63 @@
+Problem :  https://leetcode.com/problems/merge-intervals/
+
+****************************
+
+Explanation :
+
+1. First, we check if there are one or zero intervals in the list. If there are, there's nothing to merge, so we return the original list.
+
+2. Next, we sort the list of intervals based on the starting values of each interval. This allows us to work with the intervals in a systematic way.
+
+3. We initialize an empty list called resultList to store the merged intervals and a variable called currentInterval to keep track of the current interval being processed.
+
+4. We loop through the sorted list of intervals, starting from the second interval (index 1) because we've already set the first interval as the current interval.
+
+5. For each interval in the sorted list, we compare it with the current interval to see if they overlap. If they do, we merge them by updating the end value of the current interval to be the maximum of the two end values.
+
+6. If there's no overlap between the current interval and the next interval, we add the current interval to the resultList because it cannot be merged with any more intervals. Then, we update the current interval to be the next interval.
+
+7. After the loop, we add the last merged or remaining interval to the resultList.
+
+8. Finally, we convert the resultList to a 2D array and return it as the result.
+
+In essence, this code sorts the intervals and then iterates through them, merging overlapping intervals as it goes, and returning the merged intervals as the final result.
+
+************************
+
+Solution :
+
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length <= 1)
+            return intervals;
+
+        // Sort intervals based on their starting values
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+        List<int[]> resultList = new ArrayList<>();
+        int[] currentInterval = intervals[0];
+
+        for (int i = 1; i < intervals.length; i++) {
+            int[] nextInterval = intervals[i];
+
+            // Check if the current interval overlaps with the next interval
+            if (currentInterval[1] >= nextInterval[0]) {
+                // Merge the intervals
+                currentInterval[1] = Math.max(currentInterval[1], nextInterval[1]);
+            } else {
+                // No overlap, add the current interval to the result and update currentInterval
+                resultList.add(currentInterval);
+                currentInterval = nextInterval;
+            }
+        }
+
+        // Add the last merged or remaining interval
+        resultList.add(currentInterval);
+
+        return resultList.toArray(new int[resultList.size()][2]);
+    }
+}
+
+
+
+
