@@ -1,0 +1,41 @@
+Problem : https://leetcode.com/problems/coin-change/
+
+*******************************
+
+Explanation :
+
+1. Create an array dp of size amount + 1 to store the minimum number of coins needed for each amount from 0 to the given amount.
+
+2. Initialize all elements of the dp array to amount + 1 (a value larger than any possible number of coins required). This acts as a placeholder to represent that it's not possible to make change for the amount initially.
+
+3. Set dp[0] to 0 since no coins are needed to make change for an amount of 0.
+
+4. Loop through each amount from 1 to the given amount:
+
+  a. For each amount, iterate through the available coin denominations.
+
+  b. If subtracting the value of the coin from the current amount results in a non-negative amount (i.e., i - coin >= 0), update dp[i] with the minimum value between the current dp[i] and 1 + dp[i - coin]. This means considering the best known way to make change for the current amount using the given coins.
+
+5. Finally, check the value stored in dp[amount]. If it's greater than amount, it means it was not possible to make change for the given amount using the provided coins, so return -1. Otherwise, return the value in dp[amount], which represents the minimum number of coins needed to make change for the specified amount.
+
+This dynamic programming approach gradually builds up the minimum coin counts for different amounts, ensuring that you find the optimal solution efficiently.
+
+********************************
+
+Solution : 
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int [] dp=new int[amount+1];
+        Arrays.fill(dp,amount+1);
+        dp[0]=0;
+        for(int i=1; i<amount+1 ;i++){
+            for(int coin : coins){
+                if(i-coin>=0){
+                    dp[i]=Math.min(dp[i], 1+ dp[i-coin] );
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+}
