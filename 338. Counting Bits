@@ -1,0 +1,36 @@
+Problem : https://leetcode.com/problems/counting-bits/
+
+*************************
+
+Explanation :
+
+1. We start by initializing an array countBits to store the count of 1's for numbers from 0 to n.
+
+2. We also initialize an offset variable to help us keep track of the most significant bit.
+
+3. We iterate through numbers from 1 to n.
+
+4. For each number i, we check if i is a power of 2 (2, 4, 8, 16, etc.). If it is, we update the offset to be the new power of 2. The offset helps us reference the correct index in the countBits array.
+
+5. We calculate the count of 1's for the current number i using the dynamic programming principle. We add 1 to the count of 1's for the smaller number i - offset.
+
+6. We store the count of 1's for the current number i in the countBits array.
+
+7. We repeat this process for all numbers from 1 to n.
+
+*************************
+
+Solution : 
+
+class Solution {
+    public int[] countBits(int n) {
+        int[] dp=new int[n+1];
+        int offset=1;
+        for(int i = 1; i <=n; i++){
+            if(i==offset*2) offset*=2;
+            dp[i]=dp[i-offset]+1;
+        }
+
+        return dp;
+    }
+}
