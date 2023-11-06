@@ -1,0 +1,32 @@
+Problem : https://leetcode.com/problems/jump-game/
+
+*********************
+
+Explanation :
+
+if you can jump to the end of an array. It starts by setting the "goal" to the last index. 
+Then, it loops through the array backward, from the second-to-last element to the first.
+In each step, it checks if you can jump from the current position (i) to reach or go beyond the goal.
+If you can jump to or beyond the goal from the current position, it updates the goal to be the current position (i).
+This means that if you can jump from the current position to the goal, you adjust the goal to be closer to your current position.
+After the loop, if the goal is at index 0, it means you can jump all the way to the end of the array, and the function returns true. 
+If the goal is not at index 0, it means you can't reach the end, so it returns false.
+
+In simple terms, the code efficiently determines if you can jump from the beginning of the array to the end by considering the reachability of each position.
+If it's possible, it returns true; otherwise, it returns false.
+
+************************
+
+Solution : 
+
+class Solution {
+    public boolean canJump(int[] nums) {
+        int goal = nums.length-1;
+        for(int i=nums.length-2;i>=0;i--){
+            if(nums[i]+i>=goal){
+                goal=i;
+            }
+        }
+        return goal==0 ;
+    }
+}
