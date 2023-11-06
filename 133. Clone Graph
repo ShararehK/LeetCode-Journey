@@ -1,0 +1,67 @@
+Problem : https://leetcode.com/problems/clone-graph/
+
+***********************
+
+Explanation :
+
+1. We have a graph represented by nodes where each node has a value (val) and a list of neighboring nodes (neighbors).
+
+2. We create a visited HashMap to keep track of nodes we've visited in the original graph and their corresponding clones in the cloned graph.
+
+3. The cloneGraph function takes an input node from the original graph as its argument and returns a cloned graph starting from that node.
+
+4. If the input node is null, it returns null because there's nothing to clone.
+
+5. If we have already visited and cloned the current node, we retrieve its clone from the visited map and return it. This is to avoid creating duplicate clones.
+
+6. If the current node is not in the visited map, we create a new clone node with the same value (val) and an empty list of neighbors.
+
+7. We add the current node and its clone to the visited map.
+
+8. We then iterate through the neighboring nodes of the current node. For each neighboring node, we recursively call the cloneGraph function to clone it and add the clone to the neighbors of the current node's clone.
+
+9. Finally, we return the clone of the input node, which represents the entire cloned graph rooted at that node.
+
+This code ensures that the entire graph is cloned while preserving the connections between nodes, resulting in a cloned graph that is structurally identical to the original graph.
+
+
+
+*************************
+
+Solution : 
+
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+*/
+
+class Solution {
+    HashMap<Node, Node > visited= new HashMap<Node,Node>();
+    public Node cloneGraph(Node node) {
+        if (node == null) return null;
+        if(visited.containsKey(node)){
+            return visited.get(node);
+        }
+        Node cloneNode=new Node(node.val,new ArrayList());
+        visited.put(node,cloneNode);
+        for(Node neighbor : node.neighbors){
+            cloneNode.neighbors.add(cloneGraph(neighbor));
+        }
+        return cloneNode;
+    }
+}
