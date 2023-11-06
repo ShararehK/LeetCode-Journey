@@ -1,0 +1,44 @@
+Problem : https://leetcode.com/problems/maximum-product-subarray/
+
+***********************
+
+Explanation :
+
+1. It starts by initializing these three variables with the first element of the input array (nums[0]).
+
+2. Then, it iterates through the input array from the second element to the end (for (int i = 1; i < nums.length; i++)).
+
+3. When it encounters a negative number, it swaps the minProduct and maxProduct because multiplying a negative number by the minimum product can result in a new maximum product.
+
+4. It updates minProduct by finding the minimum between the current number and the current number multiplied by the minProduct.
+
+5. It updates maxProduct by finding the maximum between the current number and the current number multiplied by the maxProduct.
+
+6. The result is continually updated with the maximum product found during the iteration using result = Math.max(result, maxProduct).
+
+7. Finally, it returns the result, which represents the maximum product of a subarray in the input array.
+
+8. This code efficiently keeps track of the maximum product as it progresses through the array, considering both positive and negative numbers.
+
+***************************
+
+Solution :
+
+class Solution {
+    public int maxProduct(int[] nums) {
+        int minProduct=nums[0];
+        int maxProduct=nums[0];
+        int result=nums[0];
+        for (int i=1;i<nums.length;i++){
+            if (nums[i]<0){
+                int temp=minProduct;
+                minProduct=maxProduct;
+                maxProduct=temp;
+            }
+            minProduct=Math.min(nums[i],minProduct*nums[i]);
+            maxProduct=Math.max(nums[i],maxProduct*nums[i]);
+            result=Math.max(result,maxProduct);
+        }
+        return result;
+    }
+}
