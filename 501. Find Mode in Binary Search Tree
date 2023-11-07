@@ -1,0 +1,73 @@
+Problem : https://leetcode.com/problems/find-mode-in-binary-search-tree/
+
+**************************
+
+Explanation :
+
+1. We traverse the binary tree using a preorder traversal (root-left-right).
+
+2. During traversal, we maintain a HashMap called hash to keep track of the frequency of each number encountered in the tree. The key is the number, and the value is its frequency.
+
+3. We also keep track of the maxFrequency, which is the highest frequency found while traversing the tree.
+
+4. After traversal, we iterate through the hash to find numbers that have the same frequency as the maxFrequency. These numbers are the modes.
+
+5. We collect the modes in a List<Integer> called result.
+
+6. Finally, we convert the List of modes into an array of integers and return it as the result.
+
+*************************
+
+Solution :
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    HashMap<Integer,Integer> hash;
+    public int[] findMode(TreeNode root) {
+        if(root==null) return null;
+        hash =new HashMap();
+        preorder(hash,root);
+        int max=0;
+        for(int value: hash.values()){
+            max=Math.max(max, value);
+        }
+
+        List<Integer> result = new ArrayList<>();
+    
+        for (int key : hash.keySet()) {
+            if (hash.get(key) == max) {
+                result.add(key);
+            }
+        }
+
+        // Convert List<Integer> to int[] manually
+        int[] modeArray = new int[result.size()];
+        for (int i = 0; i < result.size(); i++) {
+            modeArray[i] = result.get(i);
+        }
+    
+    return modeArray;
+        
+
+    }
+    public void preorder(HashMap<Integer,Integer> hash , TreeNode root){
+        if (root==null) return;
+        hash.put(root.val, hash.getOrDefault(root.val, 1) + 1);
+        preorder(hash,root.left);
+        preorder(hash,root.right);
+    }
+}
