@@ -1,0 +1,69 @@
+Problem :  https://leetcode.com/problems/course-schedule/
+
+*************************
+
+Explanation : 
+
+1. First, it checks if there's only one course or no prerequisites. In such cases, you can always finish the courses, so it returns true.
+
+2. It uses a HashMap to store information about which courses are prerequisites for other courses. For example, it keeps track of what courses you must complete before taking a specific course.
+
+3. Then, it performs a check to see if there are any cycles or loops in the course prerequisites. In other words, it ensures that you don't have situations where course A is a prerequisite for course B, and course B is also a prerequisite for course A, creating a never-ending loop.
+
+4. If there are no cycles in the prerequisites, it means you can complete all the courses, and it returns true. Otherwise, if a cycle is detected, it returns false, indicating that it's impossible to complete the courses due to conflicting prerequisites.
+
+In simple terms, the code helps you figure out if you can finish your courses without getting stuck in a never-ending loop of prerequisites. If there are no such loops, it returns "true," indicating you can complete the courses. If there are loops, it returns "false," meaning you can't complete all the courses.
+
+******************************
+
+Solution :
+
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        if (numCourses <= 1 || prerequisites.length == 0) {
+            return true;
+        }
+
+        // Build a HashMap to represent course prerequisites
+        HashMap<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] course : prerequisites) {
+            int courseNum = course[0];
+            int prerequisite = course[1];
+            graph.putIfAbsent(courseNum, new ArrayList<>());
+            graph.get(courseNum).add(prerequisite);
+        }
+
+        int[] visited = new int[numCourses];
+
+        for (int i = 0; i < numCourses; i++) {
+            if (hasCycle(graph, visited, i)) {
+                return false; // If a cycle is found, it's impossible to complete all courses
+            }
+        }
+
+        return true;
+    }
+
+    private boolean hasCycle(HashMap<Integer, List<Integer>> graph, int[] visited, int course) {
+        if (visited[course] == 1) {
+            return true; // Cycle detected
+        }
+
+        if (visited[course] == 2) {
+            return false; // This course has been visited and doesn't lead to a cycle
+        }
+
+        visited[course] = 1; // Mark the course as visiting
+
+        if (graph.containsKey(course)) {
+            for (int prerequisite : graph.get(course)) {
+                if (hasCycle(graph, visited, prerequisite)) {
+                    return true; // Cycle detected in the subgraph
+                }
+            }
+        }
+
+        visited[course] = 2; // Mark the course as visited
+        return false;
+    }
+}
