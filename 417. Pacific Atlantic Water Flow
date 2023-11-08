@@ -1,0 +1,98 @@
+Problem : https://leetcode.com/problems/pacific-atlantic-water-flow/
+
+*******************************
+
+Explanation :
+
+Let's break down the code in simple terms:
+
+We are given a 2D grid of heights representing an island.
+The island has two oceans: the Pacific Ocean (on the left and top edges) and the Atlantic Ocean (on the right and bottom edges).
+Rainwater can flow from a cell to its neighboring cells if the neighboring cell's height is less than or equal to the current cell's height.
+Our task is to find and return a list of grid coordinates where rainwater can flow from a cell to both the Pacific and Atlantic Oceans.
+Here's a step-by-step explanation of the code:
+
+Step 1: We create a list to store the coordinates where water can flow to both oceans.
+
+Step 2: We check if the input grid is empty. If it is, we return an empty result.
+
+Step 3: We create two "maps" or boolean matrices that help us mark cells that are reachable from the Pacific and Atlantic Oceans.
+
+Step 4: We start by exploring cells along the edges of the island. We do this in two stages:
+
+First, we explore the left and top edges, marking cells reachable from the Pacific Ocean.
+Second, we explore the right and bottom edges, marking cells reachable from the Atlantic Ocean.
+Step 5: After marking cells for both oceans, we go through the entire grid and look for cells that are marked as reachable from both the Pacific and Atlantic Oceans.
+
+Step 6: If a cell meets this condition, we add its coordinates to the result list.
+
+Step 7: Finally, we return the result list, which contains the coordinates of cells that can flow to both oceans.
+
+In summary, the code uses a depth-first search (DFS) approach to identify cells that can reach both the Pacific and Atlantic Oceans, and it stores their coordinates in the result list. It's a systematic way to solve the problem by exploring the grid and determining which cells have access to both oceans.
+
+********************************
+
+Solution : 
+
+class Solution {
+    // Define the four possible directions to move in the grid (up, down, left, right).
+    int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        // Create a list to store the result, i.e., the cells that can reach both oceans.
+        List<List<Integer>> result = new ArrayList<>();
+        
+        // Check if the input grid is empty or null, return an empty result in that case.
+        if (heights == null || heights.length == 0) {
+            return result;
+        }
+        
+        // Get the dimensions of the grid.
+        int m = heights.length; // Number of rows
+        int n = heights[0].length; // Number of columns
+        
+        // Create two boolean matrices to mark cells that are reachable from the Pacific and Atlantic Oceans.
+        boolean[][] canReachPacific = new boolean[m][n];
+        boolean[][] canReachAtlantic = new boolean[m][n];
+        
+        // Step 1: Start DFS from the Pacific Ocean border (left and top).
+        for (int i = 0; i < m; i++) {
+            dfs(heights, canReachPacific, i, 0);
+            dfs(heights, canReachAtlantic, i, n - 1);
+        }
+        
+        // Step 2: Start DFS from the Atlantic Ocean border (right and bottom).
+        for (int j = 0; j < n; j++) {
+            dfs(heights, canReachPacific, 0, j);
+            dfs(heights, canReachAtlantic, m - 1, j);
+        }
+        
+        // Step 3: Iterate through the grid to find cells that can reach both oceans and add their coordinates to the result.
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (canReachPacific[i][j] && canReachAtlantic[i][j]) {
+                    result.add(Arrays.asList(i, j));
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    // Depth-first search to mark cells that can be reached from a given cell (x, y).
+    private void dfs(int[][] heights, boolean[][] canReach, int x, int y) {
+        canReach[x][y] = true;
+        
+        // Check all four directions for possible moves.
+        for (int[] dir : directions) {
+            int newX = x + dir[0];
+            int newY = y + dir[1];
+            
+            // Ensure the new cell is within the grid, not visited, and has a height greater than or equal to the current cell.
+            if (newX >= 0 && newX < heights.length && newY >= 0 && newY < heights[0].length
+                && !canReach[newX][newY] && heights[newX][newY] >= heights[x][y]) {
+                dfs(heights, canReach, newX, newY); // Recursively explore the new cell.
+            }
+        }
+    }
+}
