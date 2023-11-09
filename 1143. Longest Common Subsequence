@@ -1,0 +1,43 @@
+Problem : https://leetcode.com/problems/longest-common-subsequence/
+
+************************
+
+Explanation :
+
+1.Initialization:
+Determine the lengths of the two input strings, text1 and text2.
+Create a table (dp) to store the length of the longest common subsequence (LCS) for different parts of the two strings.
+
+2. Dynamic Programming Iteration:
+Go through each character of both strings.
+If the characters match, increase the LCS length by 1 based on the previously calculated LCS length.
+If they don't match, update the table to consider either excluding a character from text1 or excluding a character from text2.
+
+3.Result:
+The final result is the length of the LCS for the entire strings, stored in the last cell of the table.
+
+**************************
+
+Solution :
+
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+
+        // dp[i][j] represents the length of LCS of text1[0...i-1] and text2[0...j-1]
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+}
