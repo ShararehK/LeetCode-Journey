@@ -1,0 +1,55 @@
+Problem :https://leetcode.com/problems/longest-increasing-subsequence/
+
+**************************
+
+Explanation :
+
+1. Initialization:
+We start with an empty lis array and set the initial length (len) to 0.
+
+2. Binary Search:
+For each element in nums, we use binary search to find the position where the current element can be inserted into the lis array.
+The Arrays.binarySearch method returns the index of the search key if it is contained in the array, otherwise, it returns -(insertion point) - 1.
+If the index is negative, we take its complement (-(index + 1)) to get the correct insertion point.
+
+3. Update lis Array:
+We update the lis array at the computed insertion point with the current element.
+If the insertion point is equal to the current length of lis (index == len), it means the current element extends the current LIS, so we increment the length (len).
+
+4. Why It Works:
+The lis array is always sorted in increasing order.
+During the iteration, we efficiently find the correct position to insert the current element using binary search.
+By updating the lis array, we maintain a valid LIS at each step.
+The length of lis is always the length of the longest increasing subsequence found so far.
+
+5. Result:
+The final length of the lis array is the length of the longest increasing subsequence in the input array nums.
+The key insight is that we use binary search to find the correct position for the current element in the lis array, and by updating the array, we efficiently maintain the longest increasing subsequence.
+This approach reduces the time complexity to O(n log n) compared to the O(n^2) time complexity of the traditional dynamic programming solution.
+
+**********************************
+
+Solution :
+
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int[] lis = new int[nums.length];
+        int len = 0;
+
+        for (int num : nums) {
+            int index = Arrays.binarySearch(lis, 0, len, num);
+
+            if (index < 0) {
+                index = -(index + 1);
+            }
+
+            lis[index] = num;
+
+            if (index == len) {
+                len++;
+            }
+        }
+
+        return len;
+    }
+}
