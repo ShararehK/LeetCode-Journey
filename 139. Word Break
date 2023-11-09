@@ -1,0 +1,46 @@
+Problem :  https://leetcode.com/problems/word-break/
+
+*************************
+
+Explanation :
+
+1. Create a boolean array dp to store whether a substring can be segmented. Initialize dp[0] to true since an empty string is always considered segmented.
+
+2. Convert the wordDict list to a set (wordSet) for faster word lookup.
+
+3. Iterate through the string s, and for each position i, check all possible substrings ending at i to see if they can be segmented.
+
+4. For each position i, iterate through all positions j before i and check if the substring from j to i is a valid word in the dictionary (wordSet) and if the substring before j can be segmented (dp[j] is true).
+
+5. If a valid segmentation is found, mark dp[i] as true and break the inner loop.
+
+6. The result is stored in the last element of the dp array (dp[s.length()]). If it's true, the entire string can be segmented into words from the dictionary.
+
+******************************
+
+Solution :
+
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        // Create a boolean array to store whether a substring can be segmented.
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true; // An empty string is always considered segmented.
+
+        // Convert the wordDict list to a set for faster word lookup.
+        Set<String> wordSet = new HashSet<>(wordDict);
+
+        // Iterate through the string and check for word segmentation.
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                // Check if the substring from j to i is a valid word and if the substring before j can be segmented.
+                if (dp[j] && wordSet.contains(s.substring(j, i))) {
+                    dp[i] = true; // Mark the current substring as segmented.
+                    break; // Break the inner loop since we found a valid segmentation.
+                }
+            }
+        }
+
+        // The result is stored in the last element of the dp array.
+        return dp[s.length()];
+    }
+}
