@@ -1,0 +1,60 @@
+Problem : https://leetcode.com/problems/combination-sum/
+
+************************
+
+Explanation :
+
+1. The combinationSum method initializes an empty result list and an empty list to store the current combination.
+
+2. It starts the backtracking process by calling the backtrack method with the initial parameters.
+
+3. The backtrack method is a recursive function that explores different combinations. It considers each candidate in the array, adds it to the current combination, and recursively explores further possibilities.
+
+4. If the target becomes negative, it stops exploring that particular path.
+
+5. If the target becomes zero, it means a valid combination is found, so it adds the current combination to the result.
+
+6. The method then continues to explore other candidates and possibilities.
+
+7. The process includes adding a candidate to the combination, exploring further with the updated target, and then backtracking by removing the last added candidate to try other possibilities.
+
+*****************************
+
+Solution : 
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> currentCombination = new ArrayList<>();
+        
+        // Start the backtracking process from the first candidate.
+        backtrack(candidates, target, 0, currentCombination, result);
+        
+        return result;
+    }
+    
+    private void backtrack(int[] candidates, int target, int start, List<Integer> currentCombination, List<List<Integer>> result) {
+        // If the target becomes negative, stop exploring this path.
+        if (target < 0) {
+            return;
+        }
+        
+        // If the target becomes zero, add the current combination to the result.
+        if (target == 0) {
+            result.add(new ArrayList<>(currentCombination));
+            return;
+        }
+        
+        // Continue exploring the combinations using backtracking.
+        for (int i = start; i < candidates.length; i++) {
+            // Add the current candidate to the combination.
+            currentCombination.add(candidates[i]);
+            
+            // Recursively explore the next candidates with the updated target.
+            backtrack(candidates, target - candidates[i], i, currentCombination, result);
+            
+            // Backtrack by removing the last added candidate to try other possibilities.
+            currentCombination.remove(currentCombination.size() - 1);
+        }
+    }
+}
