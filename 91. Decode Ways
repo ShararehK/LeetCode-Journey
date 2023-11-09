@@ -1,0 +1,60 @@
+Problem :https://leetcode.com/problems/decode-ways/
+
+**************************
+
+Explanation :
+
+Step 1: Initialization
+Set up two variables, twoStepsBack and oneStepBack, both initially set to 1.
+twoStepsBack represents the ways to decode the substring two steps back, and oneStepBack represents the ways to decode the substring one step back.
+Start iterating from the second character of the string.
+
+Step 2: Iterate Through the String
+For each character, calculate two possibilities: one using the current character alone (first), and the other using the current and previous characters combined (second).
+Update a variable current based on these possibilities.
+
+Step 3: Update Variables
+Move twoStepsBack and oneStepBack one step forward.
+Assign the current value of oneStepBack to twoStepsBack, and the current value of current to oneStepBack.
+
+Step 4: Repeat Iteration
+Repeat steps 2 and 3 for each character in the string, updating variables as you go.
+
+Step 5: Final Result
+The final result is stored in oneStepBack, representing the total number of ways to decode the given string.
+
+*************************
+
+Solution :
+
+class Solution {
+    public int numDecodings(String s) {
+    int n = s.length();
+    if (s == null || n == 0) {
+        return 0;
+    }
+
+    int twoStepsBack = 1;
+    int oneStepBack = s.charAt(0) != '0' ? 1 : 0;
+
+    for (int i = 2; i <= n; i++) {
+        int current = 0;
+
+        int first = Integer.valueOf(s.substring(i - 1, i));
+        int second = Integer.valueOf(s.substring(i - 2, i));
+
+        if (first >= 1 && first <= 9) {
+            current += oneStepBack;
+        }
+        if (second >= 10 && second <= 26) {
+            current += twoStepsBack;
+        }
+
+        twoStepsBack = oneStepBack;
+        oneStepBack = current;
+    }
+
+    return oneStepBack;
+}
+
+}
