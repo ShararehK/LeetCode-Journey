@@ -1,0 +1,36 @@
+Problem : https://leetcode.com/problems/unique-paths/
+
+***********************
+
+Explanation :
+
+The intuition behind this dynamic programming approach is to fill up a 2D array dp, where dp[i][j] represents the number of unique paths to reach the cell (i, j) in a m x n grid. 
+We initialize the top-left cell dp[1][1] to 1 since there is only one way to reach that cell (starting point), and then we iterate through the grid, updating each cell based on the sum of the paths from the cell above and the cell to the left.
+
+Approach
+We use a 2D array dp to store the number of unique paths. We iterate through the entire grid, filling in the values based on the condition:
+if i == 1 or j == 1, then the value is set to 1 (as there is only one way to reach cells in the first row or first column).
+Otherwise, we update dp[i][j] by adding the number of paths from the cell above (dp[i-1][j]) and the cell to the left (dp[i][j-1]).
+
+**************************
+
+Solution :
+
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp=new int[m+1][n+1];
+        dp[1][1]=1;
+        for (int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
+                if(i==1 || j==1){
+                    dp[i][j]=1;
+                }
+                else{
+                    dp[i][j]=dp[i][j-1]+dp[i-1][j];
+                    
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}
