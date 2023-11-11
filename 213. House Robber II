@@ -1,0 +1,56 @@
+Problem :https://leetcode.com/problems/house-robber-ii/
+
+******************************
+
+Explanation :
+
+1. Base Cases:
+
+  *  If there are no houses, return 0.
+  *  If there is only one house, return the money in that house.
+2. Dynamic Programming Array:
+
+  *  Create an array to store the maximum amount of money that can be robbed up to each house.
+3. First Pass:
+
+  *  Initialize the first two elements based on the money in the first two houses.
+  *  Iterate through the houses, calculating the maximum loot by considering robbing or skipping each house.
+  *  Record the maximum loot without robbing the last house.
+4. Second Pass:
+
+  *  Reset the array to consider robbing the last house but not the first one.
+  *  Iterate through the houses, calculating the maximum loot by considering robbing or skipping each house.
+  *  Record the maximum loot without robbing the first house.
+5. Return the Maximum:
+
+6. Return the maximum loot between two scenarios: robbing the first house and not robbing the last one, and not robbing the first house but robbing the last one.
+
+*****************************
+
+Solution : 
+
+class Solution {
+    public int rob(int[] nums) {
+        if (nums.length == 0) return 0;
+        if (nums.length == 1) return nums[0];
+        
+        int[] dp = new int[nums.length];
+        
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+        for (int i = 2; i < nums.length-1; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+        }
+        int maxWithoutLast=dp[nums.length-2];
+
+
+        dp[0] = 0;
+        dp[1] = nums[1];
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+        }
+        int maxWithoutfirst=dp[nums.length-1];
+
+        return Math.max(maxWithoutfirst,maxWithoutLast);
+    }
+}
