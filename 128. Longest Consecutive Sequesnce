@@ -1,0 +1,47 @@
+Problem :https://leetcode.com/problems/longest-consecutive-sequence/
+
+**************************
+
+Explanation :
+
+1. Count the Blocks:
+Imagine you have a row of numbered blocks (the array). We want to find the longest chain of blocks where each block's number is one more than the previous one.
+
+2. Sort the Blocks:
+To make it easier, let's arrange the blocks in order. This way, if there's a chain, the blocks will be next to each other.
+
+3. Count Consecutive Blocks:
+Now, we walk through the row of blocks. If the next block is one more than the current block, we add it to our count. If it's not, we start counting again.
+
+4. Find the Longest Chain:
+While doing this, we keep track of the longest chain we've found so far. Once we've walked through all the blocks, we know the length of the longest chain.
+
+5. Return the Result:
+The length of the longest chain is our answer. We figured out how many blocks are lined up in a row, one after the other.
+
+*************************
+
+Solution :
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if (nums.length <= 1) return nums.length;
+
+        Arrays.sort(nums);
+
+        int max = 1;  // Initialize max to 1, as a single element is considered a sequence of length 1.
+        int cur = 1;
+
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i - 1] + 1) {
+                cur++;
+            } else if (nums[i] != nums[i - 1]) {
+                cur = 1;  // Reset if not consecutive or duplicate.
+            }
+
+            max = Math.max(max, cur);
+        }
+
+        return max;
+    }
+}
