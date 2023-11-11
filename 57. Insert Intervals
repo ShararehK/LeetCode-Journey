@@ -1,0 +1,70 @@
+Problem : https://leetcode.com/problems/insert-interval/
+
+*************************
+
+Explanation :
+
+1. Prepare a List:
+Create an empty list called res to store the intervals after inserting the new interval.
+
+2. Go Through Each Existing Interval:
+Loop through each interval in the given list of intervals.
+
+3. Decide Where to Insert:
+
+  *  If the current interval ends before the new interval starts, just add the current interval to the result.
+  *  If the new interval ends before the current interval starts, add the new interval and update it to the current interval.
+  *  If there is an overlap between the current interval and the new interval, merge them.
+4. Add the Remaining or Merged Interval:
+After the loop, add the last merged or remaining new interval to the result.
+
+5. Convert List to 2D Array:
+Convert the list of intervals (res) to a 2D array (result) before returning.
+
+6. Return the Result:
+Return the final 2D array containing the merged intervals.
+
+*********************************
+
+Solution :
+
+
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        int n = intervals.length;
+        List<int[]> res = new ArrayList<>();
+
+        // Iterate through existing intervals
+        for (int i = 0; i < n; i++) {
+            // If the current interval ends before the new interval starts, add it to the result
+            if (intervals[i][1] < newInterval[0]) {
+                res.add(intervals[i]);
+            }
+            // If the new interval ends before the current interval starts, add the new interval and update it
+            else if (newInterval[1] < intervals[i][0]) {
+                res.add(newInterval);
+                newInterval = intervals[i]; // Update newInterval to the current interval
+            }
+            // If there is an overlap, merge the intervals
+            else {
+                newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+                newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+            }
+        }
+
+        // Add the last merged or remaining newInterval
+        res.add(newInterval);
+
+        // Convert the list to a 2D array
+        int[][] result = new int[res.size()][2];
+        for (int i = 0; i < res.size(); i++) {
+            result[i] = res.get(i);
+        }
+
+        return result;
+    }
+}
+
+
+
+
