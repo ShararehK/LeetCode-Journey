@@ -1,0 +1,71 @@
+Problem : https://leetcode.com/problems/design-add-and-search-words-data-structure/
+
+*****************************
+
+Explanation :
+
+1. The Magical Dictionary (WordDictionary): Imagine you have this incredible dictionary that can store words in a unique way. It's not just a regular dictionary; it's magical! This dictionary is special because it doesn't just list words alphabetically — it organizes them in a way that makes searching even more exciting.
+
+2. Adding Words (addWord method): When you want to add a word to the magical dictionary, you start at the very beginning, the root page. Each letter of your word guides you to a new page in the dictionary. It's like you're creating a path through the pages with every letter you add. When you reach the end of your word, it's like putting a special mark on that last page, saying, "Hey, this is the end of a word!"
+
+3. Searching for Words (search method): Now comes the fun part — searching for words! You start again at the root page when you want to find a word. The magic here is that you can search for a word even if you don't know all the letters. If there's a dot ('.') in the word you're looking for, it means any letter can be there.
+
+4. The Magic Helper (DFS method): To make searching so flexible, there's a magical helper called DFS (Depth-First Search). It's like a friendly guide that helps you explore the pages of the dictionary. When you want to find a word, DFS starts turning the pages, looking for the right letters. If it sees a dot ('.'), it doesn't get puzzled; instead, it says, "Aha! I can imagine any letter here!" DFS then bravely tries to find the word by checking all possible letters.
+
+So, Imagine This: Let's say you ask the magical dictionary, "Do you have a word that looks like 'h.llo'?" DFS starts turning the pages, and for the dot, it says, "I'll try any letter here." It explores different paths, creating possibilities. If it finds a page where the word looks like 'hello,' it happily says, "Yes, we have a word like that!"
+
+*****************************
+
+Solution :
+
+class Node{
+    Node[] children;
+    boolean isEnd;
+    public Node(){
+        children =new Node[26];
+        isEnd=false;
+    } 
+}
+class WordDictionary {
+    Node root;
+    public WordDictionary() {
+        root=new Node();
+    }
+    
+    public void addWord(String word) {
+        Node cur=root;
+        for(int i =0;i<word.length();i++){
+            if(cur.children[word.charAt(i)-'a']==null){
+                cur.children[word.charAt(i)-'a']=new Node();
+            }
+            cur=cur.children[word.charAt(i)-'a'];
+        }
+        cur.isEnd=true;
+    }
+    
+    public boolean search(String word) {
+        return DFS(0,root, word);
+    }
+    public boolean DFS(int index , Node cur, String word){
+        if(index==word.length()) return cur.isEnd;
+        if(word.charAt(index)=='.'){
+                for(Node child : cur.children){
+                    if(child !=null && DFS(index+1,child, word)){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        else{
+            cur=cur.children[word.charAt(index)-'a'];
+            return cur !=null && DFS(index+1,cur, word);
+        }
+    }
+}
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * boolean param_2 = obj.search(word);
+ */
