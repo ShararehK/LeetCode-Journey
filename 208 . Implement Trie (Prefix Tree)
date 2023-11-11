@@ -1,0 +1,79 @@
+Problem :https://leetcode.com/problems/implement-trie-prefix-tree/
+
+****************************
+
+Explanation :
+
+1. The Big Box (Node): Imagine there is a big box called Node. This big box has a special power - it can store letters and create a pathway to find words.
+
+2. Creating the Big Box (Constructor): The Node has a magic spell inside its constructor that sets up everything. It starts with the idea that it doesn't mark the end of any word initially, and it creates 26 smaller boxes inside itself, each for a different letter from 'a' to 'z'.
+
+3. The Magic Wand (Trie): Now, imagine you have a magical wand called Trie that you can use to explore this big box.
+
+4. Adding Words (insert method): When you want to add a word to this magical box, you start at the beginning (root). You take each letter of the word and, using your magic wand, you move to the corresponding smaller box inside the big box. If there's no box for a particular letter, you create one. As you reach the end of the word, you say, "Aha! This is the end of a word."
+
+5. Finding Words (search method): To find a word, you start at the beginning (root) again. You follow the path of boxes for each letter of the word. If, at any point, you can't find the box for a letter, you sadly say, "No, this word doesn't exist." But if you successfully reach the end of the word, you happily say, "Yes, this word exists!"
+
+6. Checking Prefix (startsWith method): Now, if you want to check if any word starts with a certain set of letters (a prefix), you start again at the beginning (root). You follow the path of boxes for each letter in the prefix. If, at any point, you can't find the box for a letter, you say, "No words start with this prefix." But if you successfully follow the path, you cheerfully say, "Yes, there are words that start with this prefix!"
+
+***************************
+
+Solution : class Node {
+        boolean isEnd;
+        Node[] children;
+
+        Node() {
+            this.isEnd = false;
+            this.children = new Node[26]; // Assuming lowercase English letters
+        }
+    }
+class Trie {
+    Node root;
+    public Trie() {
+        root = new Node();
+    }
+    
+    public void insert(String word) {
+        Node cur=root;
+        for(int i=0;i<word.length();i++){
+            if(cur.children[word.charAt(i)-'a']==null){
+                cur.children[word.charAt(i)-'a']=new Node();
+            }
+            cur=cur.children[word.charAt(i)-'a'];
+        }
+        cur.isEnd=true;
+    }
+    
+    public boolean search(String word) {
+        Node cur=root;
+        for(int i=0;i<word.length();i++){
+            if(cur.children[word.charAt(i)-'a']==null){
+                return false;
+            }
+            cur=cur.children[word.charAt(i)-'a'];
+        }
+        
+        return cur.isEnd;
+    }
+    
+    public boolean startsWith(String prefix) {
+        Node cur=root;
+        for(int i=0;i<prefix.length();i++){
+            if(cur.children[prefix.charAt(i)-'a']==null){
+                return false;
+            }
+            cur=cur.children[prefix.charAt(i)-'a']; 
+        }
+        
+        return true;
+    }
+}
+
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
