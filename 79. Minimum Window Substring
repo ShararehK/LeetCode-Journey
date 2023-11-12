@@ -1,0 +1,110 @@
+Problem : https://leetcode.com/problems/minimum-window-substring/
+
+************************************
+
+Explanation :
+
+1. Initialize Pointers and Hashmaps:
+
+  Set two pointers (left and right) to the start of the string s.
+  Create a hashmap (TFreqHash) to store the frequency of characters in string t.
+  Create another hashmap (SubFreqHash) to store the frequency of characters in the current window of s.
+2. Initialize Counters:
+
+  Keep track of the number of different characters needed to form t (requiredChars).
+  Keep track of the number of characters formed in the current window (formedChars).
+3. Initialize Minimum Window Variables:
+
+  Initialize variables (minLen, minLeft, minRight) to keep track of the minimum window found.
+4. Loop Through the String:
+
+  While the right pointer is less than the length of s:
+  Add the current character at the right pointer to SubFreqHash.
+  Check if this character contributes to forming a character in t. If yes, increment formedChars.
+5. Try to Minimize the Window:
+
+  While the window contains all characters required to form t:
+  Update the minimum window variables if the current window is smaller.
+  Remove the character at the left pointer from SubFreqHash.
+  Check if the removal affects forming a character in t. If yes, decrement formedChars.
+  Move the left pointer to try to minimize the window.
+6. Continue Moving the Right Pointer:
+
+  Continue moving the right pointer to the right.
+7. Check for Valid Minimum Window:
+
+  After the loop, check if a valid minimum window was found.
+  If yes, extract the substring from minLeft to minRight from s.
+8. Return the Result:
+
+  Return the minimum window found.
+
+*************************************
+
+Solution :
+
+import java.util.HashMap;
+
+class Solution {
+    public String minWindow(String s, String t) {
+        if (t.length() > s.length()) return "";
+        if (s.equals(t)) return s;
+
+        String result = "";
+        int left = 0;
+        int right = 0;
+
+        HashMap<Character, Integer> TFreqHash = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            TFreqHash.put(c, TFreqHash.getOrDefault(c, 0) + 1);
+        }
+
+        HashMap<Character, Integer> SubFreqHash = new HashMap<>();
+        int requiredChars = TFreqHash.size();
+        int formedChars = 0;
+
+        // Variables to keep track of the minimum window
+        int minLen = Integer.MAX_VALUE;
+        int minLeft = 0;
+        int minRight = 0;
+
+        while (right < s.length()) {
+            char rightChar = s.charAt(right);
+            SubFreqHash.put(rightChar, SubFreqHash.getOrDefault(rightChar, 0) + 1);
+
+            // Check if the current character contributes to forming a character in t
+            if (TFreqHash.containsKey(rightChar) && SubFreqHash.get(rightChar).equals(TFreqHash.get(rightChar))) {
+                formedChars++;
+            }
+
+            // Try to minimize the window by moving the left pointer
+            while (left <= right && formedChars == requiredChars) {
+                // Update the minimum window if the current window is smaller
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
+                    minLeft = left;
+                    minRight = right;
+                }
+
+                char leftChar = s.charAt(left);
+                SubFreqHash.put(leftChar, SubFreqHash.get(leftChar) - 1);
+
+                // Check if the removal of the left character affects forming a character in t
+                if (TFreqHash.containsKey(leftChar) && SubFreqHash.get(leftChar) < TFreqHash.get(leftChar)) {
+                    formedChars--;
+                }
+
+                left++;
+            }
+
+            right++;
+        }
+
+        // Check if a valid window was found
+        if (minLen != Integer.MAX_VALUE) {
+            result = s.substring(minLeft, minRight + 1);
+        }
+
+        return result;
+    }
+}
