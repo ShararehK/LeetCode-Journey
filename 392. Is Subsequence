@@ -1,0 +1,52 @@
+Problem : https://leetcode.com/problems/is-subsequence/
+
+******************************
+
+Explanation :
+
+1. Base Cases:
+
+  If the string s is empty, it's always considered a subsequence of any string t.
+  If s is not empty but t is, then s cannot be a subsequence of t.
+2. Check Lengths:
+
+  If the length of s is greater than the length of t, s cannot be a subsequence of t.
+3. Initialize Index Pointers:
+
+  Use two pointers, indexS for s and indexT for t, both starting at the beginning.
+4. Check Characters:
+
+  Iterate through characters of t using indexT.
+  If the current characters of s and t match, move indexS to the next character in s.
+5. Break if All Characters Found:
+
+  If all characters of s have been found in the correct order in t, break out of the loop.
+6. Check if All Characters Found:
+
+  Check if indexS has reached the length of s. If yes, it means all characters of s have been found in t.
+  In simpler terms, this algorithm is like checking if the letters of a word are present in a longer sentence, and if they appear in the same order. If all the letters are found, it's considered a subsequence. If not, it's not a subsequence. The algorithm ensures the characters of the word (s) are found in the correct order within the sentence (t).
+
+
+*******************************
+
+Solution :
+
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        if(s.length()==0) return true;
+        else if (s.length()!=0 && t.length()==0) return false;
+        if(s.length()>t.length()) return false;
+        int indexS=0;
+        int indexT=0;
+        while(indexT<t.length()){
+            if(s.charAt(indexS)==t.charAt(indexT)){
+                indexS++;  
+            }
+            if(indexS==s.length()){
+                break;
+            }
+            indexT++;
+        }
+        return indexS==s.length();
+    }
+}
