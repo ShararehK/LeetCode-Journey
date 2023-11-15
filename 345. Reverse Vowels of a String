@@ -1,0 +1,51 @@
+Problem :https://leetcode.com/problems/reverse-vowels-of-a-string/
+
+*******************************
+
+Explanation :
+
+1. Initialize Pointers:
+Set up two pointers, left and right, and convert the input string to a char array for easy modification.
+
+2. Reverse Vowels Using Pointers:
+Iterate through the string, swapping vowels between the left and right pointers until they meet in the center.
+
+3. Vowel Checking:
+Implement a method, isVowel, to determine if a character is a vowel (both lowercase and uppercase).
+
+4. Return Modified String:
+Convert the modified char array back to a string and return the result.
+
+*****************************
+
+Solution :
+
+class Solution {
+    public String reverseVowels(String s) {
+        int left=0;
+        int right=s.length()-1;
+        char[] chars=s.toCharArray();
+        while (left<right){
+            if(isVowel(chars[left]) && isVowel(chars[right])){
+                char temp=chars[left];
+                chars[left]=chars[right];
+                chars[right]=temp;
+                right --;
+                left++;
+            }
+            else if (isVowel(chars[left]) && !isVowel(chars[right])){
+                right--;
+            }
+            else{
+                left++;
+            }
+        }
+        return new String(chars);
+    }
+    public boolean isVowel(char c){
+        if (c=='a'||c=='e'||c=='o'|| c=='i' || c=='u'||c=='A'||c=='E'||c=='O'|| c=='I' || c=='U'){
+            return true;
+        }
+        return false;
+    }
+}
