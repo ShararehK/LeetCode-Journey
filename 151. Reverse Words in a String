@@ -1,0 +1,39 @@
+Problem :https://leetcode.com/problems/reverse-words-in-a-string/
+
+*******************************
+
+Explanation :
+
+1. Tokenizing the String:
+
+  *  The input string s is first trimmed to remove any leading or trailing whitespaces.
+  *  The trimmed string is then split into an array of words using spaces as the delimiter. This creates an array of individual words.
+
+2. Reversing the Words:
+
+  *  The code then iterates through the array of words in reverse order, starting from the last word.
+  *  For each non-empty word, it appends the word to the result string.
+  *  If the current word is not the first word, it adds a space after the word to separate it from the next word.
+
+
+
+*******************************
+
+Solution : 
+
+class Solution {
+    public String reverseWords(String s) {
+        
+        String[] words=s.trim().split(" ");
+        String res="";
+        for(int i=words.length-1;i>=0;i--){
+            if(words[i]!=""){
+                res+=words[i];
+                if(i!=0){
+                    res+=" ";
+                }
+            }
+        }
+        return res;
+    }
+}
