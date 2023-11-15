@@ -1,0 +1,60 @@
+Problem :https://leetcode.com/problems/find-median-from-data-stream/
+
+****************************
+
+Explanation :
+
+The MedianFinder class uses two heaps (minHeap and maxHeap) to maintain the smaller and larger halves of the numbers in the stream.
+
+The addNum method adds a number to either maxHeap or minHeap based on its value. After adding, the balance method is called to ensure the size difference between the two heaps is at most 1.
+
+The findMedian method returns the median of the numbers stored in the heaps. It considers three cases: when maxHeap is larger, when minHeap is larger, and when both heaps have the same size.
+
+****************************
+
+Solution :
+
+class MedianFinder {
+
+    private PriorityQueue<Integer> minHeap;
+    private PriorityQueue<Integer> maxHeap;
+
+    public MedianFinder() {
+        minHeap = new PriorityQueue<>();
+        maxHeap = new PriorityQueue<>((a, b) -> b - a);
+    }
+
+    public void balance() {
+        if (maxHeap.size() - minHeap.size() > 1) {
+            minHeap.offer(maxHeap.poll());
+        } else if (minHeap.size() - maxHeap.size() > 1) {
+            maxHeap.offer(minHeap.poll());
+        }
+    }
+    
+    public void addNum(int num) {
+        if (maxHeap.size() == 0 || maxHeap.peek() >= num) {
+            maxHeap.offer(num);
+        } else {
+            minHeap.offer(num);
+        }
+        balance();
+    }
+    
+    public double findMedian() {
+        if (maxHeap.size() > minHeap.size()) {
+            return maxHeap.peek();
+        } else if (maxHeap.size() < minHeap.size()) {
+            return minHeap.peek();
+        } else {
+            return (minHeap.peek() + maxHeap.peek()) / 2.0;
+        }
+    }
+}
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.addNum(num);
+ * double param_2 = obj.findMedian();
+ */
