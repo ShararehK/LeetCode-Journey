@@ -1,0 +1,48 @@
+Problem :https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/
+
+**************************
+
+Explanation :
+
+The purpose of the code is to delete the middle node from a given linked list.
+It uses two pointers, slow and fast, to traverse the list at different speeds, ultimately finding the middle node.
+1. Initialization and Dummy Node:
+A dummy node is created with a value of 0 and its next pointing to the head of the linked list. This is a common technique to simplify edge cases and avoid dealing with special cases for the head of the list.
+
+2. Finding the Middle:
+The fast pointer moves twice as fast as the slow pointer through the linked list. When fast reaches the end, slow will be at the middle due to the speed difference.
+This is accomplished using a while loop that continues as long as fast and fast.next are not null (not at the end), and fast.next.next is not null (to move fast two steps at a time).
+
+3. Deleting the Middle Node:
+Once the middle is found, the code modifies the pointers to skip the middle node. It does this by setting slow.next to point to the node after the middle node.
+The modified linked list is returned with the head being the next of the dummy node.
+
+
+**************************
+
+Solution : /**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        if(head==null) return null;
+        ListNode dummy=new ListNode(0);
+        dummy.next=head;
+        ListNode slow=dummy;
+        ListNode fast=dummy;
+        
+        while (fast!=null && fast.next!=null && fast.next.next!=null){
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+        slow.next=slow.next.next;
+        return dummy.next;
+    }
+}
