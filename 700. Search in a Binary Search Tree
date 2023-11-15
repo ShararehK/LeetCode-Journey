@@ -1,0 +1,52 @@
+Problem : https://leetcode.com/problems/search-in-a-binary-search-tree/
+
+*****************************
+
+Explanation :
+
+The code is for searching a Binary Search Tree (BST) for a node with a specific value (val).
+It starts the search from the root of the tree.
+1. Base Case:
+If the current node is null (reached the end of a branch), it means the value is not found, so it returns null.
+
+2. Found the Value:
+If the value of the current node matches the target value (val), it returns the current node.
+
+3. Recursive Search:
+If the target value is less than the current node's value, the search continues in the left subtree.
+If the target value is greater than the current node's value, the search continues in the right subtree.
+
+4. Recursive Call:
+The method calls itself recursively with the appropriate subtree until it finds the target value or reaches a null node.
+
+*****************************
+
+Solution :
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode searchBST(TreeNode root, int val) {
+        if(root==null) return null;
+        if(root.val==val){
+            return root;
+        }
+        else if (root.val>val){
+            return searchBST(root.left,val);
+        }
+        return searchBST(root.right,val);
+    }
+}
