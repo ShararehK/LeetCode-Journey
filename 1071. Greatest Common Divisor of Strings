@@ -1,0 +1,28 @@
+Problem : https://leetcode.com/problems/greatest-common-divisor-of-strings/
+
+*****************************
+
+Explanation :
+
+1. The code first checks if the concatenation of str1 and str2 is equal to the concatenation of str2 and str1. If not, it returns an empty string since there is no common divisor in this case.
+
+2. If the concatenation is equal, it calculates the GCD of the lengths of str1 and str2 using the gcd function. This length-based GCD ensures that the common divisor has a length that evenly divides both strings.
+
+3. The gcd function implements Euclid's Algorithm to find the GCD of two integers a and b. This GCD is then used to determine the length of the common divisor.
+
+4. Finally, the code returns a substring of str1 starting from index 0 and having a length equal to the calculated GCD.
+
+*****************************
+
+Solution :
+
+class Solution {
+    public String gcdOfStrings(String str1, String str2) {
+        if (!(str1+str2).equals(str2+str1)) return "";
+        int gcd=gcd (str1.length(), str2.length());
+        return str1.substring(0,gcd);
+    }
+    public int gcd(int a , int b ){
+        return b  == 0 ? a : gcd(b, a % b);
+    }
+}
