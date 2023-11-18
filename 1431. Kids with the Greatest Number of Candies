@@ -1,0 +1,38 @@
+Problem : https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/
+
+****************************
+
+Explanation :
+
+1. Find the Maximum Number of Candies:
+Initialize a variable maxCandies to store the maximum number of candies.
+Iterate through the array of candies, and for each kid's candies, update maxCandies if the current number is greater than the current maximum.
+At the end of this loop, maxCandies will hold the maximum number of candies among all kids.
+
+2. Check if Each Kid Can Have the Greatest or Equal Number of Candies:
+Iterate through the array of candies again.
+For each kid, check if adding the extraCandies to their current candies makes them have a number of candies greater than or equal to maxCandies.
+If yes, add true to the result list; otherwise, add false.
+
+***************************
+
+Solution :
+
+class Solution {
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+        List<Boolean> result = new ArrayList<>();
+        int maxCandies = 0;
+
+        // Find the maximum number of candies
+        for (int candy : candies) {
+            maxCandies = Math.max(maxCandies, candy);
+        }
+
+        // Check if each kid can have the greatest or equal number of candies
+        for (int candy : candies) {
+            result.add(candy + extraCandies >= maxCandies);
+        }
+
+        return result;
+    }
+}
