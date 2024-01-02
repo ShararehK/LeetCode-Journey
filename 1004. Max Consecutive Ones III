@@ -1,0 +1,39 @@
+problem : https://leetcode.com/problems/max-consecutive-ones-iii/
+
+**********************
+
+Explanation :
+
+1. Initialization: Two pointers (left and right) are initialized to mark the boundaries of the sliding window. Both start at the beginning of the array (nums).
+2. Sliding Window Iteration:
+  - The right pointer iterates through the array.
+  - If the current element at right is 0, decrement the allowed flips (k).
+  - Check if the remaining flips (k) become negative. If so, adjust the window by moving the left pointer to the right until k becomes non-negative again.
+3. Adjusting the Window:
+  - When the number of flips (k) becomes negative, the left pointer moves to the right.
+  - The purpose of the adjustment is to maintain the constraint of allowing at most k flips. The adjustment considers the actual value at the left pointer to accurately update the remaining flips.
+4. Max Consecutive Ones: During each iteration, update the maximum count of consecutive 1's (right - left) to keep track of the longest consecutive sequence.
+5. Result: Once the iteration is complete, return the maximum count as the result.
+
+************************
+
+Solution :
+
+class Solution {
+    public int longestOnes(int[] nums, int k) {
+        int left = 0;
+        int right;
+        for (right = 0; right < nums.length; right++) {
+            if (nums[right] == 0) {
+                k--;
+            }
+            if (k < 0) {
+                k += 1 - nums[left]; 
+                left++;
+            }
+        }
+        return right - left;
+        
+        
+    }
+}
