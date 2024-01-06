@@ -23,6 +23,7 @@ Solution :
 
 class Solution {
     public int[] twoSum(int[] nums, int target) {
+        //Solution 1 : key = nums[i] and value =complement
         int[] result=new int[2];
         HashMap<Integer , Integer> hash=new HashMap();
         for(int i=0; i<nums.length ; i++){
@@ -42,5 +43,27 @@ class Solution {
             }
         }
         return result;
+
+        // Solution 2 : key =num[i] , value =i (index of num[i])  ------------  faster solution 
+
+        HashMap<Integer, Integer> hash = new HashMap<>();
+        int[] result = new int[2];
+
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+
+            // Check if the complement exists in the hash map
+            if (hash.containsKey(complement)) {
+                result[0] = hash.get(complement);
+                result[1] = i;
+                return result;
+            }
+
+            // Store the current element and its index in the hash map
+            hash.put(nums[i], i);
+        }
+
+        // If no solution is found, return an empty array
+        return new int[]{};
     }
 }
