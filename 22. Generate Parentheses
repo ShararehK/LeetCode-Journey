@@ -1,0 +1,48 @@
+Problem : https://leetcode.com/problems/generate-parentheses/
+
+**************************
+
+Explanation :
+
+1. List Initialization:The function generateParenthesis initializes an empty ArrayList called result to store the generated combinations.
+
+2. Variable Initialization:
+closing and opening are initialized to 0, representing the counts of closing and opening parentheses.
+An empty string s is initialized to store each combination.
+
+3. Recursive Function Call:The recursive function is called with the initialized values, and it generates all valid combinations recursively.
+
+4. Recursive Function:
+The recursive function appends either an opening parenthesis "(" or a closing parenthesis ")" to the string s based on the conditions.
+If the count of opening is less than n, a recursive call is made with an added opening parenthesis.
+If the count of closing is less than opening, a recursive call is made with an added closing parenthesis.
+The base case is when the length of the string s reaches n*2, i.e., the combination is complete. At this point, the combination is added to the result list.
+
+5. Result Return:The generateParenthesis function returns the list of generated combinations stored in the result list.
+
+****************************
+
+Solution :
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List <String> result=new ArrayList<>();
+        int closing=0;
+        int opening=0;
+        String s="";
+        recursive(result, closing,opening,s,n);
+        return result;
+    }
+    public void recursive(List<String> result ,int closing, int opening , String s, int n){
+        if (s.length()==n*2){
+            result.add(s);
+            return ;
+        }
+        if (opening <n){
+            recursive(result, closing,opening+1 ,s+"(",n);
+        }
+        if (closing <opening ){
+            recursive(result, closing+1,opening ,s+")",n);
+        }
+    }
+}
