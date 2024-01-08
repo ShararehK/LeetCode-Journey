@@ -1,0 +1,52 @@
+Problem : https://leetcode.com/problems/trapping-rain-water/
+
+************************
+
+Explanation  :
+
+1. Input Check:The function begins by checking if the length of the input array height is less than or equal to 2. If so, it returns 0 since, with less than three walls, there is no space for trapping water.
+
+2. Initialization:
+Initialize variables start and end to the first and last indices of the array, respectively.
+Initialize variables maxStart and maxEnd to the heights of the walls at start and end, respectively.
+Initialize the result variable to 0, which will accumulate the total trapped water.
+
+3. Main Loop:
+Use a while loop that continues as long as start is less than end.
+Inside the loop, check if maxStart is less than or equal to maxEnd.
+If true, increment start to move towards the center of the array.
+Update maxStart to be the maximum of the current height at start and the previous maxStart.
+Calculate the amount of water that can be trapped at the current start index and add it to result.
+If maxEnd is greater than maxStart, decrement end to move towards the center.
+Update maxEnd to be the maximum of the current height at end and the previous maxEnd.
+Calculate the amount of water that can be trapped at the current end index and add it to result.
+
+4. Return Result:Once the loop is complete (when start is equal to end), the function returns the total trapped water stored in the result variable.
+
+**********************
+
+Solution :
+
+class Solution {
+    public int trap(int[] height) {
+        if (height.length<=2) return 0;
+        int start=0;
+        int end =height.length-1;
+        int maxStart=height[start];
+        int maxEnd=height[end];
+        int result=0;
+        while(start<end){
+            if (maxStart<=maxEnd){
+                start++;
+                maxStart=Math.max(height[start],maxStart);
+                result+=maxStart-height[start];
+            }
+            else{
+                end--;
+                maxEnd=Math.max(height[end],maxEnd);
+                result+=maxEnd-height[end];
+           }
+        }
+        return result;
+    }
+}
