@@ -1,0 +1,44 @@
+problems :https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
+
+**********************
+
+Explanation :
+
+1. Initialize Variables:
+result: An array of size 2 to store the indices of the two numbers that add up to the target.
+start: An index pointing to the beginning of the array (numbers).
+end: An index pointing to the end of the array (numbers).
+
+2. While Loop:
+The loop continues until the sum of the numbers at the start and end indices equals the target.
+If the sum is greater than the target, decrement the end index.
+If the sum is less than the target, increment the start index.
+
+3. Calculate Result Indices:
+After exiting the loop (when the sum is equal to the target), set result[0] to start + 1 and result[1] to end + 1. The +1 is used because indices in arrays are 0-based, but the problem likely expects a 1-based index.
+
+4. Return Result:
+The result array now contains the indices of the two numbers that add up to the target, and it is returned.
+
+**********************
+
+Solution :
+
+class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        int [] result=new int [2];
+        int start =0;
+        int end =numbers.length-1;
+        while (numbers[start]+numbers[end]!=target){
+            if (numbers[start]+numbers[end]>target){
+                end --;
+            }
+            else if (numbers[start]+numbers[end]<target){
+                start++;
+            }
+        }
+        result[0]=start+1;
+        result[1]=end+1;
+        return result;
+    }
+}
