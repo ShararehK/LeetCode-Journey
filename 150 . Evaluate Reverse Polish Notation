@@ -1,0 +1,56 @@
+Problem : https://leetcode.com/problems/evaluate-reverse-polish-notation/
+
+************************
+
+Explanation :
+
+1. Input Check:The code first checks if the length of the input array tokens is 0 or 1. If it's 0, the function returns 0. If it's 1, it directly converts and returns the single token as an integer.
+
+2. Stack Initialization:A stack (Stack<Integer> stack) is used to keep track of intermediate results during the evaluation.
+
+3. Token Processing Loop:The code iterates through each token in the tokens array.
+
+4. Operand Handling:
+If the token is not one of the four basic operators (+, -, /, *), it is considered an operand.
+The operand is converted to an integer using Integer.parseInt(c) and pushed onto the stack.
+
+5. Operator Handling:
+If the token is an operator, the code checks if the stack is not empty (to ensure there are operands to operate on).
+Two operands are popped from the stack (a and b), and the corresponding operation is performed based on the operator.
+For addition (+), a and b are added, and the result is pushed back onto the stack.
+For subtraction (-), a is subtracted from b, and the result is pushed back onto the stack.
+For division (/), b is divided by a, and the result is pushed back onto the stack.
+For multiplication (*), a and b are multiplied, and the result is pushed back onto the stack.
+
+6. Final Result:After processing all tokens, the final result is obtained from the top of the stack. If the stack is not empty, the top value is popped and returned as the result. Otherwise, 0 is returned.
+
+************************
+
+Solution :
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+        if (tokens.length==0) return 0;
+        if (tokens.length==1) return Integer.parseInt(tokens[0]);
+        Stack<Integer> stack=new Stack<>();
+        int a ;
+        int b;
+        for (String c: tokens){
+            if (!c.equals("+") && !c.equals("-") && !c.equals("/") && !c.equals("*")){
+                stack.push(Integer.parseInt(c));
+            }
+            else if(!stack.isEmpty()){
+                a =stack.pop();
+                b=stack.pop();
+                if (c.equals("+")) stack.push(a+b);
+                else if (c.equals("-")) stack.push(b-a);
+                else if (c.equals("/")) stack.push(b/a);
+                else if (c.equals("*")) stack.push(a*b);
+                }
+            }
+        if (!stack.isEmpty()) {
+            return stack.pop();
+        }
+        return 0;
+    }
+}
