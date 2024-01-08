@@ -1,0 +1,64 @@
+Problem : https://leetcode.com/problems/min-stack/
+
+**********************
+
+Explanation :
+
+1. Initialization:Two stacks, stack and minStack, are created.
+
+2. Push Method:When a new value is pushed onto stack:
+If minStack is empty or the new value is less than or equal to the current minimum, the new value is pushed onto minStack.
+If the new value is greater than the current minimum, the current minimum is duplicated on minStack.
+
+3. Pop Method:Removes the top value from both stack and minStack.
+
+4. Top Method:Retrieves the top value from stack without modifying it.
+
+5. GetMin Method: Retrieves the current minimum value stored in minStack.
+
+************************
+
+Solution :
+
+class MinStack {
+Stack<Integer> stack;
+Stack<Integer> minStack;
+
+    public MinStack() {
+        stack=new Stack<>();
+        minStack=new Stack<>();
+    }
+    
+    public void push(int val) {
+        stack.push(val);
+        if (minStack.isEmpty() || val<=minStack.peek() ){
+             minStack.push(val);
+        }
+        else if (!minStack.isEmpty() && val>minStack.peek()){
+            minStack.push(minStack.peek());
+        }
+    }
+    
+    public void pop() {
+        stack.pop();
+        minStack.pop();
+    }
+    
+    public int top() {
+        return stack.peek();
+
+    }
+    
+    public int getMin() {
+        return minStack.peek();
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(val);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
