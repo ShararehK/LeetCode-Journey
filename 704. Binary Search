@@ -1,0 +1,47 @@
+Problem : https://leetcode.com/problems/binary-search/
+
+**************************
+
+Explanation :
+
+1. Initialization:start is set to the beginning index of the array (0), and end is set to the last index of the array (nums.length-1).
+
+2. Binary Search Loop:The code enters a while loop that continues until the start index is greater than the end index.
+
+3. Midpoint Calculation:Inside the loop, the midpoint index mid is calculated as the average of start and end: mid = (start + end) / 2.
+
+4. Target Check:If the element at the midpoint nums[mid] is equal to the target value, the index mid is returned as the result.
+
+5. Adjusting Search Range: 
+If the element at the midpoint is greater than the target, it means the target must be in the left half of the remaining array. Therefore, the end is updated to mid - 1.
+If the element at the midpoint is less than the target, it means the target must be in the right half of the remaining array. Therefore, the start is updated to mid + 1.
+
+6. Repeat:The process is repeated in each iteration of the loop, narrowing down the search range until the target is found or the search range becomes empty (start > end).
+
+7. Result: If the target is found, the index of the target is returned. If the target is not in the array, -1 is returned.
+
+***************************
+
+Solution :
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int start=0;
+        int end =nums.length-1;
+        while (start<=end){
+            int mid=(start+end)/2;
+            // System.out.println(nums[mid]);
+            if (nums[mid]==target){
+                return mid;
+            }
+            else if (nums[mid]>target){
+                end =mid-1;
+            }
+            else {
+                start=mid+1;
+            }
+        }
+
+        return -1;
+    }
+}
