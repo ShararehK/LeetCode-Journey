@@ -4,23 +4,17 @@ Problem : https://leetcode.com/problems/product-of-array-except-self/
 
 Explanation :
 
-1. Initialize totalProduct to 1, which will be used to store the product of all non-zero elements in the input array.
+Initialization: Initialize three arrays pre, post, and res, each of length n (where n is the length of the input array nums). These arrays will store intermediate results.
 
-2. Create a variable countZero to keep track of how many zeros are in the input array.
+Prefix Products (pre array): Calculate the product of all elements to the left of each element in the input array nums and store the results in the pre array. This step ensures that pre[i] holds the product of all elements before nums[i].
 
-3. Loop through the nums array:
+Suffix Products (post array): Calculate the product of all elements to the right of each element in the input array nums and store the results in the post array. This step ensures that post[i] holds the product of all elements after nums[i].
 
-  *  If the current element is not zero, multiply it with totalProduct to accumulate the product of non-zero elements.
-  *  If the current element is zero, increment countZero to count the number of zeros in the array.
-4. After the first loop, you have the product of all non-zero elements in totalProduct and the count of zeros in countZero.
+Final Result (res array): Calculate the final result array res by multiplying corresponding elements from the pre and post arrays. This multiplication excludes the element at the current index i, achieving the goal of the code.
 
-5. In the second loop through the nums array:
+Return Result: Return the final result array res.
 
-  *  If there is more than one zero (countZero > 1), set the current element to 0 because the product of all elements will be 0.
-  *  If there's only one zero (countZero == 1) and the current element is zero, set the current element to the totalProduct because it's the only zero in the array, and the product of all other elements is the totalProduct.
-  *  If there's only one zero (countZero == 1) and the current element is not zero, set the current element to 0 because it's not the only zero.
-  *  If there are no zeros, divide the totalProduct by the current element to get the product of all elements except the one at the current index.
-6. Return the modified nums array, which now contains the desired products.
+Explanation: The approach relies on breaking down the problem into two subproblems - finding the products to the left and right of each element. By precomputing these products in the pre and post arrays, respectively, the final result can be obtained by multiplying the corresponding pre and post products, excluding the current element. This approach eliminates the need for repetitive calculations and achieves the desired result in a time-efficient manner.
 
 ****************************
 
@@ -28,31 +22,26 @@ Solution :
 
 class Solution {
     public int[] productExceptSelf(int[] nums) {
-        int totalProduct=1;
-        int countZero=0;
-        for (int i : nums){
-            if(i!=0){
-                totalProduct*=i;
-            }
-            else{
-                countZero++;
-            }
-            
+        int n=nums.length;
+        int [] pre=new int[n];
+        int [] post=new int [n];
+        int [] res=new int[n];
+
+        pre[0]=1;
+        int prod=1;
+        for(int i=1;i<n;i++){
+            pre[i]=pre[i-1]*nums[i-1];
         }
-        for(int i=0 ; i < nums.length; i++){
-            if (countZero>1){
-                nums[i]=0;
-            }
-            else if (countZero==1 && nums[i]==0){
-                nums[i]=totalProduct;
-            }
-            else if (countZero==1 && nums[i]!=0){
-                nums[i]=0;
-            }
-            else{
-                nums[i]=totalProduct/nums[i];
-            }
+
+        prod=1;
+        post[n-1]=1;
+        for(int i=n-2;i>=0;i--){
+            post[i]=post[i+1]*nums[i+1];
         }
-        return nums;
+        
+        for(int i=0; i<n;i++){
+            res[i]=pre[i]*post[i];
+        }
+        return res;
     }
 }
